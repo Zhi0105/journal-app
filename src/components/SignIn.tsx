@@ -1,10 +1,10 @@
+import Lottie from "lottie-react";
 import Link from "next/link"
 import { BiLogIn } from 'react-icons/bi'
 import { PiKeyReturnFill } from 'react-icons/pi'
 import { GiArchiveRegister } from 'react-icons/gi'
-import Image from "next/image"
-import books from '@_assets/books.webp'
 import { Controller, useForm } from "react-hook-form";
+import calender from '@_assets/calendar.json'
 
 interface LoginInterface {
   username: string,
@@ -32,13 +32,9 @@ export const SignIn = () => {
   return (
     <div className="login_main flex min-h-screen flex-col items-center justify-center mx-4">
       <section className="bg-gray-50 rounded-lg shadow-lg flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <Image 
-          src={books}
-          alt="book"
-          width={200}
-          height={200}
-          priority
-        />
+        <div className="h-1/2 w-1/2">
+          <Lottie animationData={calender}/>
+        </div>
         <h1 className="mt-5">Login to your account</h1>
         <div className="form_container w-full p-6 space-y-4 md:space-y-6 sm:p-8">
           <div className="form space-y-4 md:space-y-6">
