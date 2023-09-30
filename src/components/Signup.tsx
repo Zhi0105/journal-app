@@ -4,7 +4,7 @@ import { BiLogIn } from 'react-icons/bi'
 import { Controller, useForm } from "react-hook-form";
 import calender from '@_assets/calendar.json'
 
-interface LoginInterface {
+interface RegisterInterface {
   username: string,
   email: string,
   password: string,
@@ -16,7 +16,7 @@ export const Signup = () => {
     handleSubmit,
     control,
     formState : { errors }
-  } = useForm<LoginInterface>({
+  } = useForm<RegisterInterface>({
     defaultValues: {
       username: '',
       email: '',
@@ -26,7 +26,7 @@ export const Signup = () => {
     },
   });
 
-  const onSubmit = (data: LoginInterface): void => {
+  const onSubmit = (data: RegisterInterface): void => {
     console.log(data)
   }
     
