@@ -1,5 +1,5 @@
 import { apiClient } from "@/http-commons";
-import { RegisterInterface } from "@/types/auth/interface";
+import { RegisterInterface, LoginInterface } from "@/types/auth/interface";
 
 
 export const Register = (payload: RegisterInterface) => {
@@ -9,6 +9,14 @@ export const Register = (payload: RegisterInterface) => {
     password: payload.password,
   }
   const result = apiClient.post('/auth/signup', params).then(res => {
+    return res.data
+  })
+
+  return result
+}
+
+export const Login = (payload: LoginInterface) => {
+  const result = apiClient.post('auth/signin', payload).then(res => {
     return res.data
   })
 

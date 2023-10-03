@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { RegisterInterface } from "@/types/auth/interface";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Register } from "@/services/mutations/authentications";
+import { Register } from "@/services/authentications";
 
 export const Signup = () => {
   const {
@@ -23,16 +23,16 @@ export const Signup = () => {
     },
   });
   const queryClient = useQueryClient()
-    const { mutate: handleRegister } = useMutation({
+  const { mutate: handleRegister } = useMutation({
     mutationFn: Register,
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ['userRegister'] });
       console.log(data)
     }, 
     onError: (err: any) => {
-      console.log(err)
+      toast(err.response.data.message, { type: "error" })
     },
-});
+  });
   const onSubmit = (data: RegisterInterface): void => {
     data.password !== data.confirmpass ? toast('oops!, password mismatch', {type: "warning"}) : handleRegister(data)
   }

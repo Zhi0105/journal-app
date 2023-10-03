@@ -23,6 +23,7 @@
       "@_app/*": ["./src/app/*"],
       "@_assets/*": ["./src/assets/*"],
       "@_components/*": ["./src/components/*"],
+      "@_contexts/*": ["./src/contexts/*"],
       "@_helpers/*": ["./src/helpers/*"],
       "@_services/*": ["./src/services/*"],
       "@_store/*": ["./src/store/*"],

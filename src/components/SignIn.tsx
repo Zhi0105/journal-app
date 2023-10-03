@@ -1,15 +1,13 @@
+import { useContext } from "react";
 import Lottie from "lottie-react";
 import Link from "next/link"
+import calender from '@_assets/calendar.json'
 import { BiLogIn } from 'react-icons/bi'
 import { PiKeyReturnFill } from 'react-icons/pi'
 import { GiArchiveRegister } from 'react-icons/gi'
 import { Controller, useForm } from "react-hook-form";
-import calender from '@_assets/calendar.json'
-
-interface LoginInterface {
-  email: string,
-  password: string
-}
+import { LoginInterface } from "@/types/auth/interface";
+import { AuthContext } from "@/contexts/Authcontext";
 
 export const SignIn = () => {
 
@@ -23,9 +21,9 @@ export const SignIn = () => {
       password: ''
     },
   });
-
+  const { login } = useContext(AuthContext)
   const onSubmit = (data: LoginInterface): void => {
-    console.log(data)
+    login(data)
   }
     
 
