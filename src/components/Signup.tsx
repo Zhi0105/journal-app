@@ -1,15 +1,12 @@
 import Lottie from "lottie-react";
 import Link from "next/link"
+import calender from '@_assets/calendar.json'
 import { BiLogIn } from 'react-icons/bi'
 import { Controller, useForm } from "react-hook-form";
-import calender from '@_assets/calendar.json'
-
-interface RegisterInterface {
-  username: string,
-  email: string,
-  password: string,
-  confirmpass: string
-}
+import { RegisterInterface } from "@/types/auth/interface";
+import { toast } from "react-toastify";
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Register } from "@/services/mutations/authentications";
 
 export const Signup = () => {
   const {
@@ -25,9 +22,19 @@ export const Signup = () => {
 
     },
   });
-
+  const queryClient = useQueryClient()
+    const { mutate: handleRegister } = useMutation({
+    mutationFn: Register,
+    onSuccess: (data: any) => {
+      queryClient.invalidateQueries({ queryKey: ['userRegister'] });
+      console.log(data)
+    }, 
+    onError: (err: any) => {
+      console.log(err)
+    },
+});
   const onSubmit = (data: RegisterInterface): void => {
-    console.log(data)
+    data.password !== data.confirmpass ? toast('oops!, password mismatch', {type: "warning"}) : handleRegister(data)
   }
     
   return (

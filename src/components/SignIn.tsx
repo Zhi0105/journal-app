@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import calender from '@_assets/calendar.json'
 
 interface LoginInterface {
-  username: string,
+  email: string,
   password: string
 }
 
@@ -19,7 +19,7 @@ export const SignIn = () => {
     formState : { errors }
   } = useForm<LoginInterface>({
     defaultValues: {
-      username: '',
+      email: '',
       password: ''
     },
   });
@@ -38,28 +38,26 @@ export const SignIn = () => {
         <h1 className="mt-5">Login to your account</h1>
         <div className="form_container w-full p-6 space-y-4 md:space-y-6 sm:p-8">
           <div className="form space-y-4 md:space-y-6">
-            <div className="username_textfield">
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                    pattern : /[\S\s]+[\S]+/
-                  }}
-                  render={({ field: { onChange, value } }) => (
-                    <input 
-                      value={value}
-                      onChange={onChange}
-                      type="username" 
-                      name="username" id="username" 
-                      placeholder="enter your username" 
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" 
-                    />
-                    
-                  )}
-                  name="username"
+            <div className="email_textfield">
+              <Controller 
+                control={control}
+                rules={{
+                  required: true,
+                  pattern: /^\S+@\S+\.\S+$/
+                }}
+                render={( { field: { onChange, value } }) => (
+                  <input 
+                  value={value}
+                  onChange={onChange}
+                  type="email" 
+                  name="email" id="email" 
+                  placeholder="enter your email" 
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" 
                 />
-                { errors.username && <p className="text-red-400 indent-2 text-sm">username invalid*</p> }
-
+                )}
+                name="email"
+              />
+                  { errors.email && <p className="text-red-400 indent-2 text-sm">email invalid*</p> }
             </div>
             <div className="password_textfield">
                 <Controller

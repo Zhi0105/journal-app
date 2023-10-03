@@ -20,13 +20,13 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@_api/*": ["./src/api*"],
       "@_app/*": ["./src/app/*"],
       "@_assets/*": ["./src/assets/*"],
       "@_components/*": ["./src/components/*"],
       "@_helpers/*": ["./src/helpers/*"],
       "@_services/*": ["./src/services/*"],
       "@_store/*": ["./src/store/*"],
+      "@_providers/*": ["./src/providers/*"],
       "@_types/*": ["./src/types/*"]
     }
   },
