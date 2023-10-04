@@ -1,12 +1,15 @@
-import Lottie from "lottie-react";
+import { useContext } from "react";
 import Link from "next/link"
-import calender from '@_assets/calendar.json'
+import Image from "next/image";
+import book from '@_assets/books.webp'
 import { BiLogIn } from 'react-icons/bi'
 import { Controller, useForm } from "react-hook-form";
 import { RegisterInterface } from "@/types/auth/interface";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Register } from "@/services/authentications";
+import { AuthContext } from "@/contexts/Authcontext";
+
 
 export const Signup = () => {
   const {
@@ -23,11 +26,14 @@ export const Signup = () => {
     },
   });
   const queryClient = useQueryClient()
+  const { authenticate } = useContext(AuthContext)  
   const { mutate: handleRegister } = useMutation({
     mutationFn: Register,
-    onSuccess: (data: any) => {
+      onSuccess: (data: { access_token: string }) => {
       queryClient.invalidateQueries({ queryKey: ['userRegister'] });
-      console.log(data)
+      authenticate(data.access_token)
+      toast("User Successfully created!", { type: "success" })
+
     }, 
     onError: (err: any) => {
       toast(err.response.data.message, { type: "error" })
@@ -40,9 +46,9 @@ export const Signup = () => {
   return (
     <div className="register_main flex min-h-screen flex-col items-center justify-center mx-4">
     <section className="bg-gray-50 rounded-lg shadow-lg flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 my-12">
-      <div className="h-1/2 w-1/2">
-        <Lottie animationData={calender}/>
-      </div>
+        <div className="h-1/2 w-1/2">
+          <Image src={book} alt="book" priority/>
+        </div>
       <h1 className="mt-5">Sign up your account</h1>
       <div className="form_container w-full p-6 space-y-4 md:space-y-6 sm:p-8">
         <div className="form space-y-4 md:space-y-6">
