@@ -1,5 +1,4 @@
 "use client"
-import React, { useState, useEffect, useCallback } from "react"
 import { AuthContext } from "@/contexts/Authcontext"
 import { LoginInterface } from "@/types/auth/interface"
 import { Login, GetUser } from "@/services/authentications"
@@ -12,9 +11,6 @@ import { useRouter } from "next/navigation"
 export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
   const router = useRouter()
-  const [enable, setEnable] = useState<boolean>(false)
-  const [token, setToken] = useState<string>("") 
-  const { data: userinfo } = GetUser(token, enable)
   const { user, setUser, setUserLogout } = useUserStore((state) => ({
     user: state.user,
     setUser: state.setUser,
@@ -38,26 +34,16 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
 
   const logout = ():void => {
     setUserLogout()
-    router.push('/login')
-    localStorage.removeItem('user')
     toast("logout success!", { type: "success" })
+    router.push('/login')
   }
 
-  const authenticate = (user:string) => {
-    setToken(user)
-    setEnable(true)
-  }
-
-  const setAuthenticateUser = useCallback(() => {
-    const user = AES.encrypt(JSON.stringify({ ...userinfo }), "user").toString()
-    setUser(user)
-    setEnable(false)
+  const authenticate = async(user:string) => {
+    const userdetails = await GetUser(user)
+    const AuthenticatedUser = AES.encrypt(JSON.stringify({ ...userdetails }), "user").toString()
+    setUser(AuthenticatedUser)
     router.push('/dashboard')
-  }, [userinfo, router, setUser])
-
-  useEffect(() => {
-    userinfo && setAuthenticateUser()
-  }, [userinfo, setAuthenticateUser])
+  }
 
   return (
     <AuthContext.Provider 

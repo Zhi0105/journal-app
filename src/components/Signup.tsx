@@ -46,9 +46,7 @@ export const Signup = () => {
   return (
     <div className="register_main flex min-h-screen flex-col items-center justify-center mx-4">
     <section className="bg-gray-50 rounded-lg shadow-lg flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 my-12">
-        <div className="h-1/2 w-1/2">
-          <Image src={book} alt="book" priority/>
-        </div>
+      <Image src={book} height={200} width={200} alt="book" priority />        
       <h1 className="mt-5">Sign up your account</h1>
       <div className="form_container w-full p-6 space-y-4 md:space-y-6 sm:p-8">
         <div className="form space-y-4 md:space-y-6">
