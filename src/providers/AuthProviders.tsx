@@ -1,4 +1,5 @@
 "use client"
+import { useEffect } from "react"
 import { AuthContext } from "@/contexts/Authcontext"
 import { LoginInterface } from "@/types/auth/interface"
 import { Login, GetUser } from "@/services/authentications"
@@ -7,6 +8,8 @@ import { toast } from "react-toastify"
 import { useUserStore } from "@/store/auth"
 import { AES } from 'crypto-js';
 import { useRouter } from "next/navigation"
+import { setCookie, deleteCookie } from 'cookies-next';
+
 
 export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
@@ -16,6 +19,16 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     setUser: state.setUser,
     setUserLogout: state.setUserLogout
   }));
+
+  useEffect(() => { // IF HAS SESSION OR NOT!
+    if(user) {
+      setCookie("user", "true")
+    }
+    if(!user) {
+      deleteCookie("user")
+    }
+  }, [user])
+  
   const { mutate: handleLoginUser } = useMutation({
     mutationFn: Login,
     onSuccess: (data: { access_token: string }) => {
@@ -34,6 +47,7 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
 
   const logout = ():void => {
     setUserLogout()
+    deleteCookie('user')
     toast("logout success!", { type: "success" })
     router.push('/login')
   }
@@ -42,8 +56,12 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     const userdetails = await GetUser(user)
     const AuthenticatedUser = AES.encrypt(JSON.stringify({ ...userdetails }), "user").toString()
     setUser(AuthenticatedUser)
+    setCookie("user", "true")
     router.push('/dashboard')
   }
+
+  
+
 
   return (
     <AuthContext.Provider 

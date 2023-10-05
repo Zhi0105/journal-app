@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useContext } from "react";
 import Link from "next/link"
 import Image from "next/image";
@@ -8,6 +9,8 @@ import { GiArchiveRegister } from 'react-icons/gi'
 import { Controller, useForm } from "react-hook-form";
 import { LoginInterface } from "@/types/auth/interface";
 import { AuthContext } from "@/contexts/Authcontext";
+import { useUserStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
 export const SignIn = () => {
 
@@ -21,10 +24,18 @@ export const SignIn = () => {
       password: ''
     },
   });
+  const router = useRouter();
+  const { user } = useUserStore((state) => ({ user: state.user }));
   const { login } = useContext(AuthContext)
   const onSubmit = (data: LoginInterface): void => {
     login(data)
   }
+
+  useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
+    if(user) {
+      router.push("/dashboard")
+    }
+  }, [user, router])
     
 
   return (
