@@ -8,7 +8,7 @@ export const Landing = () => {
     <div className="min-h-screen w-screen grid grid-cols-1 place-items-center">
       <section 
         className="
-          xs:w-3/5 sm:min-w-1/2 md:min-w-1/2 w-full 
+          xs:w-5/6 sm:w-3/5 w-full 
           xs:h-5/6 flex flex-col md:flex-row justify-center items-center bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-gray-100 px-8"
       >  
         <Lottie animationData={journal} className='w-full h-full' width={100} height={100}/>
