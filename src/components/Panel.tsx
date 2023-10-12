@@ -22,7 +22,7 @@ export const Panel = () => {
   return (
     <div className="dashboard_main w-full p-2">
       <div className="bg-slate-200 rounded-md shadow-lg flex gap-2 p-4">
-        <h1>How's your day?, {userdata?.username}</h1>
+        <h1>How is your day?, {userdata?.username}</h1>
         <span style={{ width: 25, height:25 }}>
           <Lottie animationData={hand} />
         </span>
