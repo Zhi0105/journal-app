@@ -14,9 +14,10 @@ import { setCookie, deleteCookie } from 'cookies-next';
 export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
   const router = useRouter()
-  const { user, setUser, setUserLogout } = useUserStore((state) => ({
+  const { user, setUser, setToken, setUserLogout } = useUserStore((state) => ({
     user: state.user,
     setUser: state.setUser,
+    setToken: state.setToken,
     setUserLogout: state.setUserLogout
   }));
 
@@ -34,6 +35,7 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     onSuccess: (data: { access_token: string }) => {
         queryClient.invalidateQueries({ queryKey: ['login'] });
         authenticate(data.access_token)
+        setToken(data.access_token)
         toast("Login success!", { type: "success" })
       }, 
     onError: (err: any) => {  
