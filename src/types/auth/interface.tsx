@@ -8,9 +8,14 @@ export interface RegisterInterface {
   password: string,
   confirmpass?: string
 }
-
 export interface AuthContextInterface {
   login: (data:LoginInterface) => void,
   authenticate: (user: string) => void,
   logout: () => void
+}
+
+export interface userInterface {
+  id: number,
+  email: string,
+  username: string
 }

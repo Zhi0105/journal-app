@@ -1,11 +1,11 @@
 "use client"
-import { Panel } from "@/components/Panel"
 import { DashboardTemplates } from "@/components/Templates/DashboardTemplates"
+import { Setting } from "@/components/Setting"
 
-export default function Dashboard() {
+export default function Category() {
   return (
     <DashboardTemplates>
-      <Panel />  
+      <Setting />  
     </DashboardTemplates>
   )
 }
