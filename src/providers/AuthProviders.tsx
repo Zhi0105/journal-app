@@ -6,7 +6,7 @@ import { Login, GetUser } from "@/services/authentications"
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify"
 import { useUserStore } from "@/store/auth"
-import { AES } from 'crypto-js';
+import { EncryptUser } from "@/helpers/helpers"
 import { useRouter } from "next/navigation"
 import { setCookie, deleteCookie } from 'cookies-next';
 
@@ -56,7 +56,7 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
 
   const authenticate = async(user:string) => {
     const userdetails = await GetUser(user)
-    const AuthenticatedUser = AES.encrypt(JSON.stringify({ ...userdetails }), "user").toString()
+    const AuthenticatedUser = EncryptUser(userdetails)
     setUser(AuthenticatedUser)
     setCookie("user", "true")
     router.push('/dashboard')

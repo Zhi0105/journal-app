@@ -1,5 +1,5 @@
 import { apiClient } from "@/http-commons";
-import { RegisterInterface, LoginInterface } from "@/types/auth/interface";
+import { RegisterInterface, LoginInterface, UpdateUserInterface,  UpdateUserFormInterface} from "@/types/auth/interface";
 
 
 export const Register = (payload: RegisterInterface) => {
@@ -34,4 +34,22 @@ export const GetUser = (user: string) => {
     })
 
     return result
+}
+
+export const UpdateUser = (payload: UpdateUserInterface ) => {
+  const headers = {
+    Authorization: `Bearer ${payload.user}`
+  }
+  let params: UpdateUserFormInterface = {}
+  payload.username && (params.username = payload.username)
+  payload.email && (params.email = payload.email)
+  payload.password && (params.password = payload.password)
+
+  
+  const result = apiClient.patch('/users/update', params, { headers }).then(res => {
+    return res.data
+  })
+
+  return result
+
 }

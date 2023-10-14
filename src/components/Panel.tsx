@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "@/store/auth";
-import { AES, enc } from "crypto-js";
 import { userInterface } from "@/types/auth/interface";
+import { getDecryptedUser } from "@/helpers/helpers";
 import Lottie from "lottie-react";
 import hand from '@_assets/hand.json'
 
@@ -12,8 +12,7 @@ export const Panel = () => {
 
   useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
     if(user){
-      const decryptedUser = AES.decrypt(user, "user").toString(enc.Utf8)
-      const userdata = JSON.parse(decryptedUser)
+      const userdata = getDecryptedUser(user)
       setUserData(userdata)
     } 
    
@@ -22,7 +21,9 @@ export const Panel = () => {
   return (
     <div className="dashboard_main w-full p-2">
       <div className="bg-slate-200 rounded-md shadow-lg flex gap-2 p-4">
-        <h1>How is your day?, {userdata?.username}</h1>
+        {userdata &&
+          <h1>How is your day?, {userdata?.username}</h1>
+        }
         <span style={{ width: 25, height:25 }}>
           <Lottie animationData={hand} />
         </span>
