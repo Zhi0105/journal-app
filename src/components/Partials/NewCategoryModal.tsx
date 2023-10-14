@@ -26,7 +26,7 @@ export const NewCategoryModal = ({ close }: any) => {
   const {
     handleSubmit,
     control,
-    // setValue
+    formState : { errors }
   } = useForm<categoryFormInterface>({
     defaultValues: {
       title: '',
@@ -54,6 +54,10 @@ export const NewCategoryModal = ({ close }: any) => {
         <div className="title_textfield w-full">
             <Controller
               control={control}
+              rules={{
+                required: true,
+                pattern : /[\S\s]+[\S]+/
+              }}
               render={({ field: { onChange, value } }) => (
                 <TextField
                   onChange={onChange}
@@ -63,11 +67,11 @@ export const NewCategoryModal = ({ close }: any) => {
                   name="title"
                   label='Enter your journal title here'
                   autoComplete="title"
-                  required={true}
                 />
               )}
               name="title"
             />
+          { errors.title && <p className="text-red-400 indent-2 text-sm">journal title should not be empty*</p> }
         </div>
         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex justify-center items-center gap-2">
           submit

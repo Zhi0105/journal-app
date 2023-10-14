@@ -145,7 +145,6 @@ export const Signup = () => {
           <div className="grid grid-cols-2 gap-3">
             <Link
               href="/login"
-              target="_top"
               className="w-full text-gray-900 underline flex justify-center items-center cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
             >
               Already Registered?
