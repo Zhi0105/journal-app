@@ -19,3 +19,13 @@ export interface userInterface {
   email: string,
   username: string
 }
+
+export interface UpdateUserFormInterface {
+  username?: string,
+  email?: string,
+  password?: string
+}
+
+export interface UpdateUserInterface extends UpdateUserFormInterface {
+  user: string
+}
