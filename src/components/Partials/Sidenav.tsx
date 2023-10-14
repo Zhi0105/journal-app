@@ -6,7 +6,7 @@ import { IoIosCreate } from 'react-icons/io'
 import { FcSettings } from 'react-icons/fc'
 import Link from "next/link"
 import Lottie from "lottie-react"
-import book from '@_assets/book.json'
+import profile from '@_assets/profile.json'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -32,7 +32,7 @@ export const Sidenav = ({ logout }: any) => {
       
       <ul className="flex flex-col gap-4">
         <li style={lottie}>
-          <Lottie animationData={book}/>
+          <Lottie animationData={profile}/>
         </li>
         <Link href="/dashboard" className="flex gap-2 cursor-pointer" target="_self">
           <span><AiOutlineHome /></span>

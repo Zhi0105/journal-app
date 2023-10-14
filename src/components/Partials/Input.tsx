@@ -1,8 +1,6 @@
 import { FC } from 'react'
-
-
 interface TextFieldInterface {
-  value: string,
+  value?: string,
   type: string,
   autoComplete: string,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
