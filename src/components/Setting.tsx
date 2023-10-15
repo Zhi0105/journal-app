@@ -43,8 +43,13 @@ export const Setting = () => {
     },
 });
 
-  const onSubmit = (data: UpdateUserFormInterface): void => {
-    if(token) {
+  const onSubmit = (data: UpdateUserFormInterface) => {
+
+    if(!data.email && !data.username && !data.password) {
+      return toast("Please enter atleast one of the field", { type: "warning" })
+    }
+    
+    if(token) { 
       let payload = {
         ...data,
         user: token
@@ -108,7 +113,6 @@ export const Setting = () => {
                     <Controller 
                       control={control}
                       rules={{
-                        required: true,
                         pattern: /^\S+@\S+\.\S+$/
                       }}
                       render={( { field: { onChange, value } }) => (
