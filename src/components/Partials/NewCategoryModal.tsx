@@ -18,6 +18,7 @@ export const NewCategoryModal = ({ close }: any) => {
         queryClient.invalidateQueries({ queryKey: ['create-journal'] });
         toast("new journal created!", { type: "success" })
         router.push("/dashboard/category")
+        close()
       }, 
     onError: (err: any) => {  
       toast(err.response.data.message, { type: "warning" })
