@@ -1,29 +1,14 @@
+import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "./Input";
 import {  BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CreateCategory } from "@/services/category";
+import { CategoryContext } from "@/contexts/CategoryContext";
 import { categoryFormInterface } from "@/types/category/interface";
-import { toast } from "react-toastify"
-import { useRouter } from "next/navigation"
 import { useUserStore } from "@/store/auth"
 
 export const NewCategoryModal = ({ close }: any) => {
-  const queryClient = useQueryClient();
-  const router = useRouter()
+  const {  createCategory} = useContext(CategoryContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
-  const { mutate: handleCreateCategory } = useMutation({
-    mutationFn: CreateCategory,
-    onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['create-journal'] });
-        toast("new journal created!", { type: "success" })
-        router.push("/dashboard/category")
-        close()
-      }, 
-    onError: (err: any) => {  
-      toast(err.response.data.message, { type: "warning" })
-    },
-});
   const {
     handleSubmit,
     control,
@@ -40,7 +25,7 @@ export const NewCategoryModal = ({ close }: any) => {
         title: data.title,
         user: token
       }
-      handleCreateCategory(payload)
+      createCategory(payload)
     }
   }
 

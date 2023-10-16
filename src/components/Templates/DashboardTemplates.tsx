@@ -4,6 +4,8 @@ import { AuthContext } from "@/contexts/Authcontext"
 import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import { Sidenav } from "../Partials/Sidenav"
+import { CategoryProvider } from "@/providers/CategoryProvider";
+
 export const DashboardTemplates = ({ children }: { children: React.ReactNode }) => {
 
     const router = useRouter();
@@ -18,8 +20,10 @@ export const DashboardTemplates = ({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="dashboard_template_main bg-white min-h-screen w-screen flex">
-      <Sidenav logout={logout} />
-      {children}
+      <CategoryProvider>
+        <Sidenav logout={logout} />
+        {children}
+      </CategoryProvider>
     </div>
   )
 }
