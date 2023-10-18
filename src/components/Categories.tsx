@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { FaEye } from 'react-icons/fa'
 import { BiSolidEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
+import Link from "next/link";
 import Lottie from "lottie-react";
 import book from '@_assets/book.json'
 
@@ -35,7 +36,9 @@ export const Categories = () => {
                     transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
                     className="font-bold text-green-700 cursor-pointer"
                   >
-                    <BiSolidEdit size={"1.2rem"}/>
+                    <Link href={`/dashboard/category/edit/${encodeURIComponent(JSON.stringify(category))}`}>
+                      <BiSolidEdit size={"1.2rem"}/>
+                    </Link>
                   </motion.span>
                   <motion.span 
                     whileHover={{ scale: 1.5 }} 
