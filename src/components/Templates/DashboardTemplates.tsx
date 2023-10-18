@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react"
 import { AuthContext } from "@/contexts/Authcontext"
 import { useUserStore } from "@/store/auth";
@@ -10,7 +10,12 @@ export const DashboardTemplates = ({ children }: { children: React.ReactNode }) 
 
     const router = useRouter();
     const { user } = useUserStore((state) => ({ user: state.user }));
+    const [mounted, setMounted] = useState<boolean>(false)
     const { logout } = useContext(AuthContext)
+      
+    useEffect(() => {
+      setMounted(true)
+    }, [])
 
     useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
       if(!user) {
@@ -22,7 +27,7 @@ export const DashboardTemplates = ({ children }: { children: React.ReactNode }) 
     <div className="dashboard_template_main bg-white min-h-screen w-screen flex">
       <CategoryProvider>
         <Sidenav logout={logout} />
-        {children}
+          { mounted && children}
       </CategoryProvider>
     </div>
   )

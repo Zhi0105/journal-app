@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { TextField } from "./Input";
-import {  BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { TextField } from "../Partials/Input";
+import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { CategoryContext } from "@/contexts/CategoryContext";
 import { categoryFormInterface } from "@/types/category/interface";
 import { useUserStore } from "@/store/auth"
+import Image from "next/image";
+import journal from '@_assets/books.webp'
 
-export const NewCategoryModal = ({ close }: any) => {
+export const CreateCategory = () => {
   const {  createCategory} = useContext(CategoryContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
   const {
@@ -15,7 +17,7 @@ export const NewCategoryModal = ({ close }: any) => {
     formState : { errors }
   } = useForm<categoryFormInterface>({
     defaultValues: {
-      title: '',
+      title: "",
     },
   });
 
@@ -30,13 +32,13 @@ export const NewCategoryModal = ({ close }: any) => {
   }
 
   return (
-    <div className="modal">
-      <button onClick={close} className="close text-black">
-        &times;
-      </button>
-      <div className="header text-lg font-bold"> Create journal </div>
-      <div className="content text-sm">
-      <form className="contact_form flex xs:flex-col sm:flex-row gap-4 px-8"  onSubmit={handleSubmit((data) => onSubmit(data))}>
+    <div className="create_category_main w-full bg-white shadow-lg rounded-lg m-8 p-8 flex flex-col justify-center items-center">
+      <div>
+        <Image src={journal} alt="journal" width={150} height={150}/>
+      </div>
+      <div className="header text-lg font-bold"> Create your journal: </div>
+      <div className="content text-sm xs:w-full sm:w-full md:w-4/5 lg:w-4/5 xl:w-4/5">
+      <form className="flex xs:flex-col sm:flex-row gap-4 px-8" onSubmit={handleSubmit((data) => onSubmit(data))}>
         <div className="title_textfield w-full">
             <Controller
               control={control}
