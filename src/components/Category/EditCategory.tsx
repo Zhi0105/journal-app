@@ -1,7 +1,8 @@
-import { FC } from "react"
+import { FC, useContext } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "../Partials/Input";
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
+import { CategoryContext } from "@/contexts/CategoryContext";
 import { categoryFormInterface, categoryItemInterface } from "@/types/category/interface";
 import { useUserStore } from "@/store/auth"
 import Image from "next/image";
@@ -12,6 +13,7 @@ interface EditCategoryInterface {
 }
 
 export const EditCategory:FC<EditCategoryInterface> = ({ category }) => {
+  const { updateCategory } = useContext(CategoryContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
   const {
     handleSubmit,
@@ -24,14 +26,14 @@ export const EditCategory:FC<EditCategoryInterface> = ({ category }) => {
   });
 
   const onSubmit = (data: categoryFormInterface): void => {
-    console.log(data)
-    // if(token) {
-    //   let payload = {
-    //     title: data.title,
-    //     user: token
-    //   }
-    //   createCategory(payload)
-    // }
+    if(token) {
+      let payload = {
+        category_id: category.id,
+        title: data.title,
+        user: token
+      }
+      updateCategory(payload)
+    }
   }
   // console.log(category)
   return (
