@@ -1,15 +1,31 @@
+import { useContext } from "react"
 import { UseCategoryStore } from "@/store/category";
 import { categoryItemInterface } from "@/types/category/interface";
 import { motion } from 'framer-motion'
 import { FaEye } from 'react-icons/fa'
 import { BiSolidEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
+import { useUserStore } from "@/store/auth"
+import { CategoryContext } from "@/contexts/CategoryContext";
+
 import Link from "next/link";
 import Lottie from "lottie-react";
 import book from '@_assets/book.json'
 
 export const Categories = () => {
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
+  const { token } = useUserStore((state) => ({ token: state.token }));
+  const { removeCategory } = useContext(CategoryContext)
+
+  const handleRemoveCategory = (category_id: number) => {
+    if(token) {
+      let payload = {
+        category_id,
+        user: token
+      }
+      removeCategory(payload)
+    }
+  }
 
   return  (
     <div className="categories_main w-full p-20">
@@ -40,7 +56,8 @@ export const Categories = () => {
                       <BiSolidEdit size={"1.2rem"}/>
                     </Link>
                   </motion.span>
-                  <motion.span 
+                  <motion.span
+                    onClick={() => handleRemoveCategory(category.id)} 
                     whileHover={{ scale: 1.5 }} 
                     transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
                     className="font-bold text-red-400 cursor-pointer"

@@ -1,9 +1,9 @@
 "use client"
 import { useCallback } from "react";
 import { CategoryContext } from "@/contexts/CategoryContext";
-import { categoryInterface } from "@/types/category/interface";
+import { categoryInterface, updateCategoryInterface, removeCategoryInterface } from "@/types/category/interface";
 import { useUserStore } from "@/store/auth";
-import { GetCategory, CreateCategory } from "@/services/category";
+import { GetCategory, CreateCategory, UpdateCategory, RemoveCategory } from "@/services/category";
 import { useQuery, useMutation, useQueryClient  } from "@tanstack/react-query";
 import { UseCategoryStore } from "@/store/category";
 import { useModalStore } from "@/store/modal"
@@ -17,8 +17,7 @@ export const CategoryProvider = ({ children }: { children: React.ReactNode }) =>
   const { setCategories } = UseCategoryStore((state) => ({ setCategories: state.setCategories }));
   const { setOpen } = useModalStore((state) => ({ setOpen: state.setOpen }));
 
-  // CATEGORY MUTATION
-  
+  // CATEGORY MUTATION  
   const { mutate: handleCreateCategory } = useMutation({
     mutationFn: CreateCategory,
     onSuccess: () => {
@@ -30,7 +29,30 @@ export const CategoryProvider = ({ children }: { children: React.ReactNode }) =>
     onError: (err: any) => {  
       toast(err.response.data.message, { type: "warning" })
     },
-});
+  });
+  const { mutate: handleUpdateCategory } = useMutation({
+    mutationFn: UpdateCategory,
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['category'] });
+        toast("item successfully updated", { type: "success" })
+        router.push("/dashboard/category")
+      }, 
+    onError: (err: any) => {
+      toast(err.response.data.message, { type: "warning" })
+    },
+  });
+  const { mutate: handleRemoveCategory } = useMutation({
+    mutationFn: RemoveCategory,
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['category'] });
+        toast("item successfully removed", { type: "success" })
+        router.push("/dashboard/category")
+      }, 
+    onError: (err: any) => {
+      toast(err.response.data.message, { type: "warning" })
+    },
+  });
+  
 
   //  GET CATEGORIES REQUEST
   useQuery({
@@ -51,7 +73,9 @@ export const CategoryProvider = ({ children }: { children: React.ReactNode }) =>
   return (
     <CategoryContext.Provider
       value={{
-        createCategory: (payload: categoryInterface) => { handleCreateCategory(payload) }
+        createCategory: (payload: categoryInterface) => { handleCreateCategory(payload) },
+        updateCategory: (payload: updateCategoryInterface) => { handleUpdateCategory(payload) },
+        removeCategory: (payload: removeCategoryInterface) => { handleRemoveCategory(payload) }
       }}
     >
       {children}
