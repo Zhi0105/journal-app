@@ -1,23 +1,55 @@
-import { useState, useEffect } from "react";
 import { UseCategoryStore } from "@/store/category";
+import { categoryItemInterface } from "@/types/category/interface";
+import { motion } from 'framer-motion'
+import { FaEye } from 'react-icons/fa'
+import { BiSolidEdit } from 'react-icons/bi'
+import { AiFillDelete } from 'react-icons/ai'
+import Lottie from "lottie-react";
+import book from '@_assets/book.json'
 
 export const Categories = () => {
-  const [mounted, setMounted] = useState<boolean>(false)
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  return mounted && (
-    <div className="categories_main flex w-full justify-center items-center">
-      <ul className="flex flex-col">
-        {categories?.length && categories.map((item: any, index: number) => {
+  return  (
+    <div className="categories_main w-full p-20">
+      <div className="grid xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 grid-cols-4 w-full gap-4">
+      {categories?.length && categories.map((category: categoryItemInterface, index: number) => {
           return (
-            <li key={index}>{item.title}</li>
+            <div key={index} className="rounded overflow-hidden shadow-lg xs:text-xs sm:text-md md:text-md lg:text-lg">
+              <div className="px-6 py-4">
+                <div className="font-bold mb-2 text-center">
+                    <Lottie animationData={book}/>
+                  {category.title}
+                </div>
+                <div className="flex justify-center gap-4 mt-8">
+                  <motion.span 
+                    whileHover={{ scale: 1.5 }} 
+                    transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
+                    className="font-bold text-blue-500 cursor-pointer"
+                  >
+                    <FaEye size={"1.2rem"}/>
+                  </motion.span>
+                  
+                  <motion.span
+                    whileHover={{ scale: 1.5 }} 
+                    transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
+                    className="font-bold text-green-700 cursor-pointer"
+                  >
+                    <BiSolidEdit size={"1.2rem"}/>
+                  </motion.span>
+                  <motion.span 
+                    whileHover={{ scale: 1.5 }} 
+                    transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
+                    className="font-bold text-red-400 cursor-pointer"
+                  >
+                    <AiFillDelete size={"1.2rem"}/>
+                  </motion.span>          
+                </div>
+              </div>
+          </div>
           )
         })}
-      </ul>
+      </div>
     </div>
   )
 }
