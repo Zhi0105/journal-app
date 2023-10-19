@@ -27,6 +27,14 @@ export const Categories = () => {
     }
   }
 
+  if(!categories?.length) {
+    return (
+      <div className="categories_main w-ull p-20">
+        no categories yet!  
+      </div>
+    )
+  }
+
   return  (
     <div className="categories_main w-full p-20">
       <div className="grid xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 grid-cols-4 w-full gap-4">
