@@ -35,7 +35,6 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     onSuccess: (data: { access_token: string }) => {
         queryClient.invalidateQueries({ queryKey: ['login'] });
         authenticate(data.access_token)
-        setToken(data.access_token)
         toast("Login success!", { type: "success" })
       }, 
     onError: (err: any) => {  
@@ -57,6 +56,7 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
   const authenticate = async(user:string) => {
     const userdetails = await GetUser(user)
     const AuthenticatedUser = EncryptUser(userdetails)
+    setToken(user)
     setUser(AuthenticatedUser)
     setCookie("user", "true")
     router.push('/dashboard')
