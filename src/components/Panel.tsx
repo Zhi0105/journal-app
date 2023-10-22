@@ -3,6 +3,7 @@ import { useUserStore } from "@/store/auth";
 import { userInterface } from "@/types/auth/interface";
 import { getDecryptedUser } from "@/helpers/helpers";
 import { UseCategoryStore } from "@/store/category";
+import { UseTaskStore } from "@/store/tasl";
 import Lottie from "lottie-react";
 import hand from '@_assets/hand.json'
 
@@ -10,6 +11,8 @@ import hand from '@_assets/hand.json'
 export const Panel = () => {
   const { user } = useUserStore((state) => ({ user: state.user }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
+  const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
+
   const [userdata, setUserData] = useState<userInterface>()
 
   useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
@@ -45,7 +48,7 @@ export const Panel = () => {
             <div className="px-6 py-4">
               <div className="font-bold text-lg mb-2">Tasks</div>
               <div className="flex justify-center gap-12">
-                <span className="text-4xl font-bold">20</span>
+                <span className="text-4xl font-bold">{tasks?.length}</span>
               </div>
             </div>
           </div>
