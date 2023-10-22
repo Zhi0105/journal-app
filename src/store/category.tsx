@@ -3,14 +3,14 @@ import { persist } from 'zustand/middleware';
 import { categoryItemInterface } from "@/types/category/interface";
 
 interface categoryStoreInterface {
-  categories: categoryItemInterface[] | null,
+  categories: categoryItemInterface[],
   setCategories:( data: categoryItemInterface[] ) => void,
   
 }
 
 const categoryStore = persist<categoryStoreInterface>(
   (set) => ({
-    categories: null,
+    categories: [],
     setCategories: (data) => set(() => ({
       categories: [ ...data ] 
     })),

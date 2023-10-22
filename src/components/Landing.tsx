@@ -17,7 +17,7 @@ export const Landing = () => {
               Filofax (Journal App)
             </h5>
             <p className="mb-3 font-normal text-gray-700">
-              Journaling app to easily log and view journal entries.
+              Journalizing app to easily log and view journal entries.
               Time management: Get it all done.
             </p>
             <Link 
