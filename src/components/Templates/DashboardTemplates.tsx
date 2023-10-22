@@ -5,6 +5,7 @@ import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import { Sidenav } from "../Partials/Sidenav"
 import { CategoryProvider } from "@/providers/CategoryProvider";
+import { TaskProvider } from "@/providers/TaskProvider";
 
 export const DashboardTemplates = ({ children }: { children: React.ReactNode }) => {
 
@@ -26,8 +27,10 @@ export const DashboardTemplates = ({ children }: { children: React.ReactNode }) 
   return (
     <div className="dashboard_template_main bg-white min-h-screen w-screen flex">
       <CategoryProvider>
-        <Sidenav logout={logout} />
-          { mounted && children}
+        <TaskProvider>
+          <Sidenav logout={logout} />
+            { mounted && children}
+        </TaskProvider>
       </CategoryProvider>
     </div>
   )

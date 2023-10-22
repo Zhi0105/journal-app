@@ -1,3 +1,10 @@
+export interface categoryItemInterface {
+  id: number,
+  user_id: number,
+  title: string,
+  createdAt: string,
+  updatedAt: string
+}
 export interface categoryFormInterface {
   title: string
 }
@@ -16,11 +23,3 @@ export interface CategoryContextInterface {
   updateCategory: (payload: updateCategoryInterface) => void
   removeCategory: (payload: removeCategoryInterface) => void
 }
-export interface categoryItemInterface {
-  id: number,
-  user_id: number,
-  title: string,
-  createdAt: string,
-  updatedAt: string
-}
-

@@ -1,7 +1,6 @@
 import { categoryItemInterface } from "../category/interface"
-
 export interface TextFieldInterface {
-  value?: string,
+  value?: string | number,
   type?: string,
   autoComplete?: string,
   onChange?: (e: React.ChangeEvent<HTMLInputElement>  | React.ChangeEvent<HTMLSelectElement>) => void,
@@ -11,7 +10,6 @@ export interface TextFieldInterface {
   required?: boolean,
   disabled?: boolean
 }
-
 export interface SelectInterface extends TextFieldInterface {
   ariaPlaceHolder?: string,
   category_data?: categoryItemInterface[] 

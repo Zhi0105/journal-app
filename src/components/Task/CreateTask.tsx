@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "../Partials/Input";
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
@@ -5,10 +6,12 @@ import { taskFormInterface } from "@/types/task/interface";
 import { useUserStore } from "@/store/auth"
 import { UseCategoryStore } from "@/store/category";
 import { DropDown } from "../Partials/Select";
+import { TaskContext } from "@/contexts/TaskContext";
 import Image from "next/image";
 import journal from '@_assets/books.webp'
 
 export const CreateTask = () => {
+  const { createTask } = useContext(TaskContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
   const {
@@ -17,27 +20,27 @@ export const CreateTask = () => {
     formState : { errors }
   } = useForm<taskFormInterface>({
     defaultValues: {
-      category_id: "",
+      category_id: 0,
       name: ""
     },
   });
 
   const onSubmit = (data: taskFormInterface): void => {
     if(token) {
-        console.log(data)
-      // let payload = {
-      //   title: data.title,
-      //   user: token
-      // }
+      let payload = {
+        category_id: Number(data.category_id),
+        name: data.name,
+        user: token
+      }
     
-      // createCategory(payload)
+      createTask(payload)
     }
   }
 
   return (
     <div className="create_task_main w-full bg-white shadow-lg rounded-lg m-8 p-8 flex flex-col justify-center items-center">
     <div>
-      <Image src={journal} alt="journal" width={150} height={150}/>
+      <Image src={journal} alt="journal" width={150} height={150} priority/>
     </div>
     <div className="header text-lg font-bold"> Create your task: </div>
     <div className="content text-sm xs:w-full sm:w-full md:w-4/5 lg:w-4/5 xl:w-4/5">
