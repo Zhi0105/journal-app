@@ -35,11 +35,10 @@ export const EditCategory:FC<EditCategoryInterface> = ({ category }) => {
       updateCategory(payload)
     }
   }
-  // console.log(category)
   return (
     <div className="create_category_main w-full bg-white shadow-lg rounded-lg m-8 p-8 flex flex-col justify-center items-center">
     <div>
-      <Image src={journal} alt="journal" width={150} height={150}/>
+      <Image src={journal} alt="journal" width={150} height={150} priority/>
     </div>
     <div className="header text-lg font-bold"> Update journal: </div>
     <div className="content text-sm xs:w-full sm:w-full md:w-4/5 lg:w-4/5 xl:w-4/5">

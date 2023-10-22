@@ -9,7 +9,7 @@ import Image from "next/image";
 import journal from '@_assets/books.webp'
 
 export const CreateCategory = () => {
-  const {  createCategory} = useContext(CategoryContext)
+  const { createCategory } = useContext(CategoryContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
   const {
     handleSubmit,
@@ -24,7 +24,7 @@ export const CreateCategory = () => {
   const onSubmit = (data: categoryFormInterface): void => {
     if(token) {
       let payload = {
-        title: data.title,
+        ...data,
         user: token
       }
       createCategory(payload)
@@ -34,7 +34,7 @@ export const CreateCategory = () => {
   return (
     <div className="create_category_main w-full bg-white shadow-lg rounded-lg m-8 p-8 flex flex-col justify-center items-center">
       <div>
-        <Image src={journal} alt="journal" width={150} height={150}/>
+        <Image src={journal} alt="journal" width={150} height={150} priority/>
       </div>
       <div className="header text-lg font-bold"> Create your journal: </div>
       <div className="content text-sm xs:w-full sm:w-full md:w-4/5 lg:w-4/5 xl:w-4/5">

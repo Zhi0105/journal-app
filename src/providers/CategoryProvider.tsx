@@ -6,7 +6,6 @@ import { useUserStore } from "@/store/auth";
 import { GetCategory, CreateCategory, UpdateCategory, RemoveCategory } from "@/services/category";
 import { useQuery, useMutation, useQueryClient  } from "@tanstack/react-query";
 import { UseCategoryStore } from "@/store/category";
-import { useModalStore } from "@/store/modal"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 
@@ -15,7 +14,6 @@ export const CategoryProvider = ({ children }: { children: React.ReactNode }) =>
   const queryClient = useQueryClient();
   const router = useRouter()
   const { setCategories } = UseCategoryStore((state) => ({ setCategories: state.setCategories }));
-  const { setOpen } = useModalStore((state) => ({ setOpen: state.setOpen }));
 
   // CATEGORY MUTATION  
   const { mutate: handleCreateCategory } = useMutation({
@@ -24,7 +22,6 @@ export const CategoryProvider = ({ children }: { children: React.ReactNode }) =>
         queryClient.invalidateQueries({ queryKey: ['category'] });
         toast("new journal created!", { type: "success" })
         router.push("/dashboard/category")
-        setOpen(false)
       }, 
     onError: (err: any) => {  
       toast(err.response.data.message, { type: "warning" })
