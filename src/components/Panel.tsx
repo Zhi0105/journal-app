@@ -3,7 +3,7 @@ import { useUserStore } from "@/store/auth";
 import { userInterface } from "@/types/auth/interface";
 import { getDecryptedUser } from "@/helpers/helpers";
 import { UseCategoryStore } from "@/store/category";
-import { UseTaskStore } from "@/store/tasl";
+import { UseTaskStore } from "@/store/task";
 import Lottie from "lottie-react";
 import hand from '@_assets/hand.json'
 
