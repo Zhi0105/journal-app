@@ -1,11 +1,11 @@
 import { useContext } from "react"
-import { UseCategoryStore } from "@/store/category";
 import { categoryItemInterface } from "@/types/category/interface";
 import { motion } from 'framer-motion'
 import { FaEye } from 'react-icons/fa'
 import { BiSolidEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
 import { useUserStore } from "@/store/auth"
+import { UseCategoryStore } from "@/store/category";
 import { CategoryContext } from "@/contexts/CategoryContext";
 
 import Link from "next/link";
@@ -52,7 +52,9 @@ export const Categories = () => {
                     transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
                     className="font-bold text-blue-500 cursor-pointer"
                   >
-                    <FaEye size={"1.2rem"}/>
+                    <Link href={`/dashboard/category/${encodeURIComponent(JSON.stringify(category))}`}>
+                      <FaEye size={"1.2rem"}/>
+                    </Link>
                   </motion.span>
                   
                   <motion.span

@@ -28,8 +28,11 @@ export const Sidenav = ({ logout }: any) => {
         </Link>
         <Link href="/dashboard/category/create" className="flex gap-2 cursor-pointer">
             <span><IoIosCreate /></span>
-            <span>Create new</span>
-            
+            <span>Journal </span>
+        </Link>
+        <Link href="/dashboard/task/create" className="flex gap-2 cursor-pointer">
+            <span><IoIosCreate /></span>
+            <span>Task</span>
         </Link>  
         <Link href="/dashboard/category" className="flex gap-2 cursor-pointer" target="_self">
           <span><BiCategory /></span>

@@ -1,15 +1,5 @@
 import { FC } from 'react'
-interface TextFieldInterface {
-  value?: string,
-  type: string,
-  autoComplete: string,
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  id: string,
-  name: string,
-  label: string,
-  required?: boolean,
-  disabled?: boolean
-}
+import { TextFieldInterface } from '@/types/forms/interface';
 
 export const TextField: FC<TextFieldInterface> = ({
   value,
