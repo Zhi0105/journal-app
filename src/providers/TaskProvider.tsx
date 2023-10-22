@@ -5,7 +5,7 @@ import { taskInterface } from "@/types/task/interface"
 import { GetTask, CreateTask } from "@/services/task";
 import { useQuery, useMutation, useQueryClient  } from "@tanstack/react-query";
 import { useUserStore } from "@/store/auth";
-import { UseTaskStore } from "@/store/tasl";
+import { UseTaskStore } from "@/store/task";
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 
