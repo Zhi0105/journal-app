@@ -37,7 +37,7 @@ export const Panel = () => {
         <div className="h-full grid xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 grid-cols-4 gap-4">
           <div className="indicator rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
-              <div className="font-bold text-lg mb-2">Categories</div>
+              <div className="font-bold text-lg mb-2">Journal</div>
               <div className="flex justify-center gap-12">
                 <span className="text-4xl font-bold">{categories?.length}</span>
               </div>
@@ -46,7 +46,7 @@ export const Panel = () => {
           
           <div className="indicator rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
-              <div className="font-bold text-lg mb-2">Tasks</div>
+              <div className="font-bold text-lg mb-2">To do</div>
               <div className="flex justify-center gap-12">
                 <span className="text-4xl font-bold">{tasks?.length}</span>
               </div>
@@ -55,7 +55,7 @@ export const Panel = () => {
 
           <div className="indicator rounded overflow-hidden shadow-lg">
             <div className="px-6 py-4">
-              <div className="font-bold text-lg mb-2">Pendings</div>
+              <div className="font-bold text-lg mb-2">In progress</div>
               <div className="flex justify-center gap-12">
                 <span className="text-4xl font-bold">20</span>
               </div>
