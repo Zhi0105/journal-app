@@ -6,17 +6,18 @@ import { BiSolidEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
 import { useUserStore } from "@/store/auth"
 import { UseCategoryStore } from "@/store/category";
+import { UseTaskStore } from "@/store/task";
 import { CategoryContext } from "@/contexts/CategoryContext";
-
+import { encodeURL, IfhasTask, getCategoryTaskLength } from "@/helpers/helpers";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import book from '@_assets/book.json'
 
 export const Categories = () => {
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
+  const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const { token } = useUserStore((state) => ({ token: state.token }));
   const { removeCategory } = useContext(CategoryContext)
-
   const handleRemoveCategory = (category_id: number) => {
     if(token) {
       let payload = {
@@ -42,6 +43,9 @@ export const Categories = () => {
           return (
             <div key={index} className="rounded overflow-hidden shadow-lg xs:text-xs sm:text-md md:text-md lg:text-lg">
               <div className="px-6 py-4">
+                <div className="text-right font-bold text-sm text-green-500">
+                  {`(${getCategoryTaskLength(tasks, category.id)}) task(s)`}
+                </div>
                 <div className="font-bold mb-2 text-center">
                     <Lottie animationData={book}/>
                   {category.title}
@@ -52,7 +56,7 @@ export const Categories = () => {
                     transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
                     className="font-bold text-blue-500 cursor-pointer"
                   >
-                    <Link href={`/dashboard/category/${encodeURIComponent(JSON.stringify(category))}`}>
+                    <Link href={`/dashboard/category/${encodeURL(category)}`}>
                       <FaEye size={"1.2rem"}/>
                     </Link>
                   </motion.span>
@@ -62,10 +66,11 @@ export const Categories = () => {
                     transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
                     className="font-bold text-green-700 cursor-pointer"
                   >
-                    <Link href={`/dashboard/category/edit/${encodeURIComponent(JSON.stringify(category))}`}>
+                    <Link href={`/dashboard/category/edit/${encodeURL(category)}`}>
                       <BiSolidEdit size={"1.2rem"}/>
                     </Link>
                   </motion.span>
+                  {IfhasTask(tasks, category.id) < 0 &&
                   <motion.span
                     onClick={() => handleRemoveCategory(category.id)} 
                     whileHover={{ scale: 1.5 }} 
@@ -73,7 +78,8 @@ export const Categories = () => {
                     className="font-bold text-red-400 cursor-pointer"
                   >
                     <AiFillDelete size={"1.2rem"}/>
-                  </motion.span>          
+                  </motion.span>
+                }
                 </div>
               </div>
           </div>
