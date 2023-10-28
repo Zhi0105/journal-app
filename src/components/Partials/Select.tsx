@@ -10,6 +10,7 @@ export const DropDown: FC<SelectInterface> = ({
   onChange,
   required,
   category_data = [],
+  disabled
 }) => {
   return (
     <div className="relative w-full">
@@ -24,6 +25,7 @@ export const DropDown: FC<SelectInterface> = ({
         role="combobox"
         id="underlined_dropdown"
         required={required}
+        disabled={disabled}
       >
         <option value="" hidden>
           {value ? value : ariaPlaceHolder}
@@ -44,7 +46,7 @@ export const DropDown: FC<SelectInterface> = ({
           </option>
         )}
       </select>
-      <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none font-normal leading-tight text-blue-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-brand after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-black peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-brand peer-focus:after:scale-x-100 peer-focus:after:border-brand peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+      <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] text-[black] font-normal leading-tight text-blue-gray-500 transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-brand after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-black peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-brand peer-focus:after:scale-x-100 peer-focus:after:border-brand peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
         <span className="font-bold">{label}</span>
       </label>
     </div>

@@ -4,7 +4,11 @@ import { categoryItemInterface } from "@/types/category/interface"
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
 import { UseTaskStore } from "@/store/task";
 import { taskItemInterface } from "@/types/task/interface";
-import { getCategoryTasks } from "@/helpers/helpers";
+import { getCategoryTasks, encodeURL } from "@/helpers/helpers";
+import { motion } from 'framer-motion'
+import { BiSolidEdit } from 'react-icons/bi'
+import Link from "next/link";
+
 interface ReadCategoryInterface {
   category: categoryItemInterface
 }
@@ -41,7 +45,19 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
           {taskList.length && taskList.map((task: taskItemInterface, index: number) => {
             return (
               <div key={index} className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <h1 className="font-bold text-lg">{task.name}</h1>
+                <div className="flex justify-between px-2"> 
+                  <h1 className="font-bold text-lg">{task.name}</h1>
+                  <motion.span
+                      whileHover={{ scale: 1.5 }} 
+                      transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
+                      className="font-bold text-green-700 cursor-pointer"
+                    >
+                      <Link href={`/dashboard/task/edit/${encodeURL(task)}`}>
+                      <BiSolidEdit size={"1.2rem"}/>
+
+                      </Link>
+                  </motion.span>
+                </div>
                 <p className="mb-3 mt-3 indent-5 text-sm text-gray-700 dark:text-gray-400">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus perspiciatis voluptas ab, tenetur, repudiandae accusantium sequi laborum iure velit eum beatae ipsam facere corporis rerum, est voluptatibus fuga earum. Perferendis, nostrum reiciendis! Delectus quia doloremque placeat odit eligendi possimus asperiores nemo. Quia beatae a aliquid quasi consequatur maxime voluptatem eaque?
                 </p>

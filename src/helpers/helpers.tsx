@@ -28,6 +28,5 @@ export const getCategoryTaskLength = (tasks: taskItemInterface[], category_id: n
 }
 export const getCategoryTasks = (tasks: taskItemInterface[], category_id: number) => {
   const filteredItems = _.filter(tasks, {category_id})
-  console.log(filteredItems)
   return filteredItems
 }
