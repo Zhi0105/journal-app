@@ -13,7 +13,12 @@ export interface taskFormInterface {
 export interface taskInterface extends taskFormInterface {
   user: string
 }
+export interface updateTaskInterface extends taskInterface {
+  task_id: number,
+  category_id: number
+}
 export interface TaskContextInterface {
-  createTask: (payload: taskInterface) => void
+  createTask: (payload: taskInterface) => void,
+  updateTask: (payload: updateTaskInterface) => void
 }
 
