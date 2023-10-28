@@ -16,6 +16,25 @@ interface ReadCategoryInterface {
 export const View:FC<ReadCategoryInterface> = ({ category }) => {
   const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const [taskList, setTaskList] = useState<taskItemInterface[]>(getCategoryTasks(tasks, category.id))
+  const [search, setSearchKeyword] = useState<string>('')
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value)
+
+    const filteredItem = tasks.filter((item) => { 
+      return item.name.toLowerCase().includes(e.target.value.toLowerCase())
+    })
+
+    setTaskList(getCategoryTasks(filteredItem, category.id))
+
+  }
+
+  const NoRecord = () => {
+    return (
+      <div> No record found</div>
+    )
+  }
+
 
   return (
     <div className="category_detail_main w-full p-4 bg-gray-100">
@@ -26,10 +45,13 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
             </div>
 
             <input
-            className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
-            type="text"
-            id="search"
-            placeholder="Search something.." /> 
+              className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+              value={search}
+              onChange={handleSearch}
+              type="text"
+              id="search"
+              placeholder="Search something.." 
+            /> 
         </div>
       </div>
       
@@ -42,7 +64,8 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
         </div>
 
         <div className="max-h-96 overflow-x-auto flex flex-col gap-4 p-4">
-          {taskList.length && taskList.map((task: taskItemInterface, index: number) => {
+          {!taskList.length && <NoRecord />}
+          {taskList.length != 0 && taskList.map((task: taskItemInterface, index: number) => {
             return (
               <div key={index} className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex justify-between px-2"> 
