@@ -4,10 +4,15 @@ import { categoryItemInterface } from "@/types/category/interface"
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
 import { UseTaskStore } from "@/store/task";
 import { taskItemInterface } from "@/types/task/interface";
-import { getCategoryTasks, encodeURL } from "@/helpers/helpers";
-import { motion } from 'framer-motion'
-import { BiSolidEdit } from 'react-icons/bi'
-import Link from "next/link";
+
+// LIST COMPONENTS
+import { TodoList } from "./Lists/TodoList";
+import { OnProgressList } from "./Lists/OnProgressList";
+import { CompletedList } from "./Lists/CompletedList";
+
+// HELPERS
+import { getCategoryTasks, getTodoTask, getOnProgressTask, getCompletedTask } from "@/helpers/helpers";
+
 
 interface ReadCategoryInterface {
   category: categoryItemInterface
@@ -29,13 +34,6 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
 
   }
 
-  const NoRecord = () => {
-    return (
-      <div> No record found</div>
-    )
-  }
-
-
   return (
     <div className="category_detail_main w-full p-4 bg-gray-100">
       <div className='seach w-full'>
@@ -54,42 +52,14 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
             /> 
         </div>
       </div>
-      
       <h1 className="text-xl font-bold capitalize mt-12">{category.title}</h1>
-      
-      <div className="w-full mt-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow">
-        <div className="flex justify-between px-2"> 
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">To do</h5>
-          <h1 className="text-gray-400">{taskList.length} result(s)</h1>
-        </div>
 
-        <div className="max-h-96 overflow-x-auto flex flex-col gap-4 p-4">
-          {!taskList.length && <NoRecord />}
-          {taskList.length != 0 && taskList.map((task: taskItemInterface, index: number) => {
-            return (
-              <div key={index} className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <div className="flex justify-between px-2"> 
-                  <h1 className="font-bold text-lg">{task.name}</h1>
-                  <motion.span
-                      whileHover={{ scale: 1.5 }} 
-                      transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
-                      className="font-bold text-green-700 cursor-pointer"
-                    >
-                      <Link href={`/dashboard/task/edit/${encodeURL(task)}`}>
-                      <BiSolidEdit size={"1.2rem"}/>
-
-                      </Link>
-                  </motion.span>
-                </div>
-                <p className="mb-3 mt-3 indent-5 text-sm text-gray-700 dark:text-gray-400">
-                {task.description}
-                </p>
-              </div>
-            )
-          })
-          }
-        </div>
+      <div className="w-full grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <TodoList tasks={getTodoTask(taskList)} />
+        <OnProgressList tasks={getOnProgressTask(taskList)} />
+        <CompletedList tasks={getCompletedTask(taskList)} />
       </div>
+      
     </div>
   )
 }
