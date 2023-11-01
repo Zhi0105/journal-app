@@ -82,7 +82,7 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
                   </motion.span>
                 </div>
                 <p className="mb-3 mt-3 indent-5 text-sm text-gray-700 dark:text-gray-400">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus perspiciatis voluptas ab, tenetur, repudiandae accusantium sequi laborum iure velit eum beatae ipsam facere corporis rerum, est voluptatibus fuga earum. Perferendis, nostrum reiciendis! Delectus quia doloremque placeat odit eligendi possimus asperiores nemo. Quia beatae a aliquid quasi consequatur maxime voluptatem eaque?
+                {task.description}
                 </p>
               </div>
             )

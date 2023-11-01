@@ -3,9 +3,10 @@ export interface TextFieldInterface {
   value?: string | number,
   type?: string,
   autoComplete?: string,
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>  | React.ChangeEvent<HTMLSelectElement>) => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>  | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void,
   id?: string,
   name?: string,
+  placeholder?: string,
   label?: string,
   required?: boolean,
   disabled?: boolean
