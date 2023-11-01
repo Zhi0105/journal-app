@@ -16,7 +16,8 @@ export const GetTask = (user: string ) => {
 export const CreateTask = (payload: taskInterface) => {
   let params = {
     category_id: payload.category_id,
-    name: payload.name
+    name: payload.name,
+    description: payload.description
   }
   const headers = {
     Authorization: `Bearer ${payload.user}`
@@ -29,7 +30,8 @@ export const CreateTask = (payload: taskInterface) => {
 export const UpdateTask = (payload: updateTaskInterface) => {
   let params = {
     category_id: payload.category_id,
-    name: payload.name
+    name: payload.name,
+    description: payload.description
   }
 
   const headers = {

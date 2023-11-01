@@ -6,6 +6,7 @@ import { TextField } from "../Partials/Input";
 import { DropDown } from "../Partials/Select";
 import { UseCategoryStore } from "@/store/category";
 import { useUserStore } from "@/store/auth"
+import { TextAreaField } from "../Partials/TextArea";
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { GiCancel } from 'react-icons/gi'
 import Image from "next/image";
@@ -28,7 +29,8 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
   } = useForm<taskFormInterface>({
     defaultValues: {
       category_id: task.category_id,
-      name: task.name
+      name: task.name,
+      description: task.description
     },
   });
 
@@ -38,6 +40,7 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
         category_id: Number(data.category_id),
         task_id: task.id,
         name: data.name,
+        description: data.description,
         user: token
       }
       updateTask(payload)
@@ -47,6 +50,7 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
   const updateTaskDetail = useCallback((task: taskItemInterface) => {
     !isUpdate ? setValue("category_id", task.category_id) : setValue("category_id", 0) 
       !isUpdate ? setValue("name", task.name) : setValue("name", "") 
+        !isUpdate ? setValue("description", task.description) : setValue("description", "") 
   }, [isUpdate, setValue])
 
   
@@ -66,6 +70,7 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
     <form className="flex xs:flex-col sm:flex-col gap-4 px-8" onSubmit={handleSubmit((data) => onSubmit(data))}>
 
       <div className="category_field">
+        {!isUpdate && <span className='font-bold text-xs'>category</span>}
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -107,6 +112,31 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
             name="name"
           />
         { errors.name && <p className="text-red-400 indent-2 text-sm">task name should not be empty*</p> }
+      </div>
+
+      <div className="textarea_textfield w-full">
+        {!isUpdate && <span className='font-bold text-xs'>Description</span>}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+              pattern : /[\S\s]+[\S]+/
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextAreaField
+                onChange={onChange}
+                value={value}
+                id="description"
+                name="description"
+                label="Description"
+                autoComplete="description"
+                required={true}
+                disabled={!isUpdate}
+              />
+            )}
+            name="description"
+          />
+        { errors.description && <p className="text-red-400 indent-2 text-sm">description should not be empty*</p> }
       </div>
       {isUpdate ? (
         <div className="w-full flex flex-col gap-2">

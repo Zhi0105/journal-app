@@ -3,11 +3,14 @@ export interface taskItemInterface {
   category_id: number,
   user_id: number,
   name: string,
+  description: string,
+  status: string,
   createdAt: string,
   updatedAt: string
 }
 export interface taskFormInterface {
   category_id: number,
+  description: string,
   name: string
 }
 export interface taskInterface extends taskFormInterface {
