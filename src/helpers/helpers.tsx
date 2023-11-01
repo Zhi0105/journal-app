@@ -30,3 +30,16 @@ export const getCategoryTasks = (tasks: taskItemInterface[], category_id: number
   const filteredItems = _.filter(tasks, {category_id})
   return filteredItems
 }
+
+export const getTodoTask = (tasks: taskItemInterface[]) => {
+  const filteredItems = _.filter(tasks, { status: "open" })
+  return filteredItems
+}
+export const getOnProgressTask = (tasks: taskItemInterface[]) => {
+  const filteredItems = _.filter(tasks, { status: "pending" })
+  return filteredItems
+}
+export const getCompletedTask = (tasks: taskItemInterface[]) => {
+  const filteredItems = _.filter(tasks, { status: "completed" })
+  return filteredItems
+}
