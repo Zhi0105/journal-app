@@ -1,15 +1,16 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { taskItemInterface } from '@/types/task/interface'
-import { encodeURL } from "@/helpers/helpers";
-import { motion } from 'framer-motion'
-import { BiSolidEdit } from 'react-icons/bi'
-import Link from "next/link";
-
+import { TaskCard } from '@/components/Partials/card/TaskCard';
+import { SortableContext } from '@dnd-kit/sortable'
+import { DragOverlay } from '@dnd-kit/core';
+import { createPortal } from 'react-dom'
 interface todoInterface {
-  tasks: taskItemInterface[]
+  tasks: taskItemInterface[],
+  activeTask: taskItemInterface | null
 }
 
-export const OnProgressList:FC<todoInterface> = ({ tasks }) => {
+export const OnProgressList:FC<todoInterface> = ({ tasks, activeTask }) => {
+  const task_id = useMemo(() => tasks.map((task: taskItemInterface) => task.id ), [tasks])
 
   const NoRecord = () => {
     return (
@@ -25,29 +26,21 @@ export const OnProgressList:FC<todoInterface> = ({ tasks }) => {
 
       <div className="max-h-96 overflow-x-auto flex flex-col gap-4 p-4">
         {!tasks.length && <NoRecord />}
+        <SortableContext items={task_id}>
         {tasks.length != 0 && tasks.map((task: taskItemInterface, index: number) => {
           return (
-            <div key={index} className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex justify-between px-2"> 
-                <h1 className="font-bold text-lg">{task.name}</h1>
-                <motion.span
-                    whileHover={{ scale: 1.5 }} 
-                    transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
-                    className="font-bold text-green-700 cursor-pointer"
-                  >
-                    <Link href={`/dashboard/task/edit/${encodeURL(task)}`}>
-                    <BiSolidEdit size={"1.2rem"}/>
-
-                    </Link>
-                </motion.span>
-              </div>
-              <p className="mb-3 mt-3 indent-5 text-sm text-gray-700 dark:text-gray-400">
-              {task.description}
-              </p>
-            </div>
+            <TaskCard task={task} key={index}/>
           )
-        })
-        }
+        })}
+        {createPortal(
+          <DragOverlay>
+            {activeTask && (
+              <TaskCard task={activeTask}/>
+            )}
+          </DragOverlay>,
+          document.body
+        )}
+        </SortableContext>
       </div>
     </div>
   )
