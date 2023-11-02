@@ -13,6 +13,9 @@ import { CompletedList } from "./Lists/CompletedList";
 // HELPERS
 import { getCategoryTasks, getTodoTask, getOnProgressTask, getCompletedTask } from "@/helpers/helpers";
 
+// DND
+import { DndContext, DragEndEvent, DragStartEvent } from '@dnd-kit/core'
+import { arrayMove } from "@dnd-kit/sortable";
 
 interface ReadCategoryInterface {
   category: categoryItemInterface
@@ -22,6 +25,7 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
   const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const [taskList, setTaskList] = useState<taskItemInterface[]>(getCategoryTasks(tasks, category.id))
   const [search, setSearchKeyword] = useState<string>('')
+  const [activeTask, setActiveTask] = useState<taskItemInterface | null>(null)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value)
@@ -33,6 +37,27 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
     setTaskList(getCategoryTasks(filteredItem, category.id))
 
   }
+    const onDragStart = (event: DragStartEvent) => {
+      if(event.active.data.current?.type === 'task') {
+        setActiveTask(event.active.data.current.task)
+        return;
+      }
+    }
+
+    const onDragEnd = (event: DragEndEvent) => {
+      const { active, over } = event
+      
+      if(!over) return;
+      const activeTaskId = active.id
+      const overTaskId = over.id
+
+      if(activeTaskId === overTaskId)return;
+      setTaskList((tasks) => {
+        const activeTaskIndex = tasks.findIndex(task => task.id === activeTaskId)
+        const overTaskIndex = tasks.findIndex(task => task.id === overTaskId)
+        return arrayMove(tasks, activeTaskIndex, overTaskIndex)
+      })
+    }
 
   return (
     <div className="category_detail_main w-full p-4 bg-gray-100">
@@ -55,9 +80,15 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       <h1 className="text-xl font-bold capitalize mt-12">{category.title}</h1>
 
       <div className="w-full grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TodoList tasks={getTodoTask(taskList)} />
-        <OnProgressList tasks={getOnProgressTask(taskList)} />
-        <CompletedList tasks={getCompletedTask(taskList)} />
+        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+          <TodoList tasks={getTodoTask(taskList)} activeTask={activeTask} />
+        </DndContext>
+        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>        
+          <OnProgressList tasks={getOnProgressTask(taskList)} activeTask={activeTask} />
+        </DndContext>
+        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>        
+          <CompletedList tasks={getCompletedTask(taskList)} activeTask={activeTask}/>
+        </DndContext>
       </div>
       
     </div>
