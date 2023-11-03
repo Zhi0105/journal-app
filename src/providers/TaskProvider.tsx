@@ -38,6 +38,18 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       toast(err.response.data.message, { type: "warning" })
     },
   });
+  const { mutate: handleUpdateTaskStatus } = useMutation({
+    mutationFn: UpdateTask,
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['task'] });
+        console.log("status updated success!")
+        // toast("status updated success!", { type: "success" })
+      }, 
+    onError: (err: any) => {
+      toast(err.response.data.message, { type: "warning" })
+    },
+  });
+
   
  //  GET TASKS REQUEST
 useQuery({
@@ -60,7 +72,8 @@ const handleTask:any = useCallback(async () => {
     <TaskContext.Provider
     value={{
       createTask: (payload: taskInterface) => { handleCreateTask(payload) },
-      updateTask: (payload: updateTaskInterface) => { handleUpdateTask(payload) } 
+      updateTask: (payload: updateTaskInterface) => { handleUpdateTask(payload) },
+      updateTaskStatus: (payload: updateTaskInterface) => { handleUpdateTaskStatus(payload) }
     }}
     >
       {children}

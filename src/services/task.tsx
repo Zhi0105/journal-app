@@ -31,7 +31,8 @@ export const UpdateTask = (payload: updateTaskInterface) => {
   let params = {
     category_id: payload.category_id,
     name: payload.name,
-    description: payload.description
+    description: payload.description,
+    status: payload.status
   }
 
   const headers = {

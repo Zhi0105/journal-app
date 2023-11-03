@@ -4,7 +4,6 @@ import { taskItemInterface } from '@/types/task/interface'
 import { TaskCard } from '@/components/Partials/card/TaskCard'
 import { SortableContext } from '@dnd-kit/sortable'
 
-
 interface taskListInterface {
   data: kanbanInterface,
 }
@@ -18,15 +17,25 @@ export const TaskList:FC<taskListInterface> = ({ data }) => {
     )
   }
 
+
   return (
-    <div className={`w-full mt-5 p-6 
+    <div 
+
+      className={`w-full mt-5 p-6 
       ${data.id === 1 && 'bg-slate-100'} 
       ${data.id === 2 && 'bg-red-100'} 
       ${data.id === 3 && 'bg-green-100'} 
       border border-gray-200 rounded-lg shadow`}
     >
     <div className="flex justify-between px-2"> 
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{data.title}</h5>
+      <h5 
+        className={`mb-2 text-lg font-bold tracking-tight     
+        ${data.id === 1 && 'text-slate-800'} 
+        ${data.id === 2 && 'text-red-800'} 
+        ${data.id === 3 && 'text-green-800'}`}
+      >
+        {data.title}
+      </h5>
       <h1 className="text-gray-400">{data.data.length} result(s)</h1>
     </div>
 

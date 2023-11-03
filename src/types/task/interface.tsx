@@ -10,18 +10,20 @@ export interface taskItemInterface {
 }
 export interface taskFormInterface {
   category_id: number,
-  description: string,
-  name: string
+  description?: string,
+  name?: string,
+  status?: string
 }
 export interface taskInterface extends taskFormInterface {
   user: string
 }
 export interface updateTaskInterface extends taskInterface {
   task_id: number,
-  category_id: number
+  category_id: number,
 }
 export interface TaskContextInterface {
   createTask: (payload: taskInterface) => void,
-  updateTask: (payload: updateTaskInterface) => void
+  updateTask: (payload: updateTaskInterface) => void,
+  updateTaskStatus: (payload: updateTaskInterface) => void
 }
 
