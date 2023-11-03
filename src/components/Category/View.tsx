@@ -1,21 +1,20 @@
 
 import { FC, useState } from "react"
 import { categoryItemInterface } from "@/types/category/interface"
+import { kanbanInterface } from "@/types/kanban/interface";
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi'
 import { UseTaskStore } from "@/store/task";
 import { taskItemInterface } from "@/types/task/interface";
-
-// LIST COMPONENTS
-import { TodoList } from "./Lists/TodoList";
-import { OnProgressList } from "./Lists/OnProgressList";
-import { CompletedList } from "./Lists/CompletedList";
+import { TaskList } from "./Lists/TaskList";
+import { TaskCard } from "../Partials/card/TaskCard";
 
 // HELPERS
 import { getCategoryTasks, getTodoTask, getOnProgressTask, getCompletedTask } from "@/helpers/helpers";
 
 // DND
-import { DndContext, DragEndEvent, DragStartEvent } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
 import { arrayMove } from "@dnd-kit/sortable";
+import { createPortal } from "react-dom";
 
 interface ReadCategoryInterface {
   category: categoryItemInterface
@@ -26,17 +25,28 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
   const [taskList, setTaskList] = useState<taskItemInterface[]>(getCategoryTasks(tasks, category.id))
   const [search, setSearchKeyword] = useState<string>('')
   const [activeTask, setActiveTask] = useState<taskItemInterface | null>(null)
+  const [kanbanColumn, setKanbanColumn] = useState<kanbanInterface[]>([
+    { id: 1, title: "To do", data: getTodoTask(taskList)},
+    { id: 2, title: "On Progress", data: getOnProgressTask(taskList)},
+    { id: 3, title: "Completed", data: getCompletedTask(taskList)}
+  ])
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value)
 
-    const filteredItem = tasks.filter((item) => { 
-      return item.name.toLowerCase().includes(e.target.value.toLowerCase())
-    })
 
-    setTaskList(getCategoryTasks(filteredItem, category.id))
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchKeyword(e.target.value)
 
-  }
+      const filteredItem = tasks.filter((item) => { 
+        return item.name.toLowerCase().includes(e.target.value.toLowerCase())
+      })
+      setTaskList(getCategoryTasks(filteredItem, category.id))
+      setKanbanColumn([
+        { id: 1, title: "To do", data: getTodoTask(filteredItem)},
+        { id: 2, title: "On Progress", data: getOnProgressTask(filteredItem)},
+        { id: 3, title: "Completed", data: getCompletedTask(filteredItem)}
+      ])
+    }
+
     const onDragStart = (event: DragStartEvent) => {
       if(event.active.data.current?.type === 'task') {
         setActiveTask(event.active.data.current.task)
@@ -45,6 +55,7 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
     }
 
     const onDragEnd = (event: DragEndEvent) => {
+      setActiveTask(null)
       const { active, over } = event
       
       if(!over) return;
@@ -57,6 +68,40 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
         const overTaskIndex = tasks.findIndex(task => task.id === overTaskId)
         return arrayMove(tasks, activeTaskIndex, overTaskIndex)
       })
+
+      setKanbanColumn([
+        { id: 1, title: "To do", data: getTodoTask(taskList)},
+        { id: 2, title: "On Progress", data: getOnProgressTask(taskList)},
+        { id: 3, title: "Completed", data: getCompletedTask(taskList)}
+      ])
+    }
+
+    const onDragOver = (event: DragOverEvent) => {
+      const { active, over } = event
+      
+      if(!over) return;
+      const activeTaskId = active.id
+      const overTaskId = over.id
+
+      if(activeTaskId === overTaskId)return;
+      const isActiveTask = active.data.current?.type === 'task'
+      const isOverTask = over.data.current?.type === 'task'
+
+      if(!isActiveTask) return;
+
+      
+      if(isActiveTask && isOverTask){
+        setTaskList((tasks) => {
+          const activeTaskIndex = tasks.findIndex(task => task.id === activeTaskId)
+          const overTaskIndex = tasks.findIndex(task => task.id === overTaskId)
+          return arrayMove(tasks, activeTaskIndex, overTaskIndex)
+        })
+        setKanbanColumn([
+          { id: 1, title: "To do", data: getTodoTask(taskList)},
+          { id: 2, title: "On Progress", data: getOnProgressTask(taskList)},
+          { id: 3, title: "Completed", data: getCompletedTask(taskList)}
+        ])
+      }
     }
 
   return (
@@ -79,18 +124,23 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       </div>
       <h1 className="text-xl font-bold capitalize mt-12">{category.title}</h1>
 
-      <div className="w-full grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-          <TodoList tasks={getTodoTask(taskList)} activeTask={activeTask} />
-        </DndContext>
-        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>        
-          <OnProgressList tasks={getOnProgressTask(taskList)} activeTask={activeTask} />
-        </DndContext>
-        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>        
-          <CompletedList tasks={getCompletedTask(taskList)} activeTask={activeTask}/>
-        </DndContext>
-      </div>
-      
+      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} onDragOver={onDragOver}>
+        <div className="w-full grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {kanbanColumn.map((column: kanbanInterface, index: number)  => {
+              return (
+                <TaskList data={column} key={index} />
+              )
+            })}
+        </div>
+          {createPortal(
+          <DragOverlay>
+            {activeTask && (
+              <TaskCard task={activeTask}/>
+            )}
+          </DragOverlay>,
+        document.body
+        )}
+      </DndContext>
     </div>
   )
 }
