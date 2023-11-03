@@ -32,7 +32,7 @@ export const TaskCard:FC<taskCardInterface> = ({ task }) => {
       <div 
         ref={setNodeRef} 
         style={style} 
-        className="w-full p-10 bg-white opacity-60 border-2 border-gray-200 rounded-lg shadow"
+        className="w-full p-4 bg-white opacity-60 border-2 border-gray-200 rounded-lg shadow"
       >  
       </div>
     )
