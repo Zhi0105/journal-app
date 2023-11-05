@@ -1,5 +1,5 @@
 import React, { FC, useState, useCallback, useEffect, useContext } from 'react'
-import { taskItemInterface, taskFormInterface } from '@/types/task/interface'
+import { taskItemInterface, taskFormInterface, dateRangeInterface } from '@/types/task/interface'
 import { TaskContext } from '@/contexts/TaskContext';
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "../Partials/Input";
@@ -11,7 +11,8 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs'
 import { GiCancel } from 'react-icons/gi'
 import Image from "next/image";
 import journal from '@_assets/books.webp'
-
+import Datepicker from "react-tailwindcss-datepicker";
+import dayjs from 'dayjs'
 interface editTaskInterface {
   task: taskItemInterface
 }
@@ -21,6 +22,10 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
   const { token } = useUserStore((state) => ({ token: state.token }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
   const [ isUpdate, setIsUpdate ] = useState<boolean>(false)
+  const [ dates, setDate ] = useState<dateRangeInterface>({
+    startDate: dayjs(task.start_date).toDate(),
+    endDate: dayjs(task.end_date).toDate()
+  })
   const {
     handleSubmit,
     control,
@@ -30,9 +35,18 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
     defaultValues: {
       category_id: task.category_id,
       name: task.name,
-      description: task.description
+      description: task.description,
+      start_date: dates.startDate,
+      end_date: dates.endDate
     },
   });
+
+  
+  const handleChangeDate = (newValue:any) => {
+    setDate(newValue);
+    setValue("start_date", dayjs(newValue.startDate, { utc: true }).format())
+    setValue("end_date", dayjs(newValue.endDate, { utc: true }).format())
+} 
 
   const onSubmit = (data: taskFormInterface): void => {
     if(token) {
@@ -41,6 +55,8 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
         task_id: task.id,
         name: data.name,
         description: data.description,
+        start_date: data.start_date,
+        end_date: data.end_date,
         user: token
       }
       updateTask(payload)
@@ -50,8 +66,8 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
   const updateTaskDetail = useCallback((task: taskItemInterface) => {
     !isUpdate ? setValue("category_id", task.category_id) : setValue("category_id", 0) 
       !isUpdate ? setValue("name", task.name) : setValue("name", "") 
-        !isUpdate ? setValue("description", task.description) : setValue("description", "") 
-  }, [isUpdate, setValue])
+        !isUpdate ? setValue("description", task.description) : setValue("description", "")
+      }, [isUpdate, setValue])
 
   
   useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
@@ -70,7 +86,7 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
     <form className="flex xs:flex-col sm:flex-col gap-4 px-8" onSubmit={handleSubmit((data) => onSubmit(data))}>
 
       <div className="category_field">
-        {!isUpdate && <span className='font-bold text-xs'>category</span>}
+        {!isUpdate && <span className='font-bold text-base'>category</span>}
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -138,6 +154,12 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
           />
         { errors.description && <p className="text-red-400 indent-2 text-sm">description should not be empty*</p> }
       </div>
+
+      <div className="date_field w-full">
+        <label className="font-bold text-base">Schedule date:</label>      
+        <Datepicker value={dates} onChange={handleChangeDate} disabled={!isUpdate} />
+      </div>
+
       {isUpdate ? (
         <div className="w-full flex flex-col gap-2">
           <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex justify-center items-center gap-2">

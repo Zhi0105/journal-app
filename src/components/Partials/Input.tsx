@@ -26,7 +26,7 @@ export const TextField: FC<TextFieldInterface> = ({
         required={required}
         disabled={disabled}
       />
-      <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] text-[black] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-slate-700 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-[black] peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-slate-700 peer-focus:after:scale-x-100 peer-focus:after:border-slate-700">
+      <label className="after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-base text-[black] font-normal leading-tight transition-all after:absolute after:-bottom-1.5 after:block after:w-full after:scale-x-0 after:border-b-2 after:border-slate-700 after:transition-transform after:duration-300 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.25] peer-placeholder-shown:text-[black] peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-slate-700 peer-focus:after:scale-x-100 peer-focus:after:border-slate-700">
         <span className="font-bold">{label}</span>
       </label>
     </div>

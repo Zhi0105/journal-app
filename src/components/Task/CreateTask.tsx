@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "../Partials/Input";
 import { BsFillArrowRightCircleFill } from 'react-icons/bs'
-import { taskFormInterface } from "@/types/task/interface";
+import { taskFormInterface, dateRangeInterface } from "@/types/task/interface";
 import { useUserStore } from "@/store/auth"
 import { UseCategoryStore } from "@/store/category";
 import { DropDown } from "../Partials/Select";
 import { TextAreaField } from "../Partials/TextArea";
 import { TaskContext } from "@/contexts/TaskContext";
+import Datepicker from "react-tailwindcss-datepicker";
+import dayjs from 'dayjs'
 import Image from "next/image";
 import journal from '@_assets/books.webp'
 
@@ -15,24 +17,38 @@ export const CreateTask = () => {
   const { createTask } = useContext(TaskContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
+  const [ dates, setDate ] = useState<dateRangeInterface>({
+    startDate: dayjs(new Date()).toDate(),
+    endDate: dayjs(new Date()).toDate()
+  })
   const {
     handleSubmit,
     control,
+    setValue,
     formState : { errors }
   } = useForm<taskFormInterface>({
     defaultValues: {
       category_id: 0,
       name: "",
-      description: ""
+      description: "",
+      start_date: dates.startDate,
+      end_date: dates.endDate
     },
   });
 
+  const handleChangeDate = (newValue:any) => {
+      setDate(newValue);
+      setValue("start_date", dayjs(newValue.startDate, { utc: true }).format())
+      setValue("end_date", dayjs(newValue.endDate, { utc: true }).format())
+  } 
   const onSubmit = (data: taskFormInterface): void => {
     if(token) {
       let payload = {
         category_id: Number(data.category_id),
         name: data.name,
         description: data.description,
+        start_date: data.start_date,
+        end_date: data.end_date,
         user: token
       }
     
@@ -112,6 +128,11 @@ export const CreateTask = () => {
             name="description"
           />
         { errors.description && <p className="text-red-400 indent-2 text-sm">description should not be empty*</p> }
+      </div>
+
+      <div className="date_field w-full">
+        <label className="font-bold text-base">Schedule date:</label>      
+        <Datepicker value={dates} onChange={handleChangeDate} />
       </div>
       
       <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex justify-center items-center gap-2">

@@ -5,6 +5,8 @@ export interface taskItemInterface {
   name: string,
   description: string,
   status: string,
+  start_date?: Date | string ,
+  end_date?: Date | string,
   createdAt: string,
   updatedAt: string
 }
@@ -12,7 +14,9 @@ export interface taskFormInterface {
   category_id: number,
   description?: string,
   name?: string,
-  status?: string
+  status?: string,
+  start_date?: Date | string ,
+  end_date?: Date | string
 }
 export interface taskInterface extends taskFormInterface {
   user: string
@@ -27,3 +31,7 @@ export interface TaskContextInterface {
   updateTaskStatus: (payload: updateTaskInterface) => void
 }
 
+export interface dateRangeInterface {
+  startDate: Date,
+  endDate: Date 
+}
