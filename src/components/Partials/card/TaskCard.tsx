@@ -39,17 +39,18 @@ export const TaskCard:FC<taskCardInterface> = ({ task }) => {
   }
 
   return (
-    <div
-      { ...attributes }
-      { ...listeners }
-      ref={setNodeRef} 
-      style={style} 
+    <div  
       className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow"
     >
-      <div 
-        className="flex justify-between px-2"
-      > 
-        <h1 className="font-bold text-lg">{task.name}</h1>
+      <div className="flex justify-between px-2"> 
+        <h1 
+          { ...attributes }
+          { ...listeners }
+          ref={setNodeRef} 
+          className="font-bold text-lg"
+        >
+          {task.name}
+        </h1>
         <motion.span
             whileHover={{ scale: 1.5 }} 
             transition={{ type: "spring", stiffness: 400, ease: "easeInOut" }}
