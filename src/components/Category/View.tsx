@@ -95,8 +95,6 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       if(isActiveTask && isOverTask){
         const task_status:string = over.data.current?.task.status
         handleUpdateStatus(task_status, activeTaskId)
-      } else {
-        console.log("asdjasdhj")
       }
     }
 
