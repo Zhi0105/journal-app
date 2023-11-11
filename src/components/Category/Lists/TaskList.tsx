@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react'
 import { kanbanInterface } from '@/types/kanban/interface'
 import { taskItemInterface } from '@/types/task/interface'
 import { TaskCard } from '@/components/Partials/card/TaskCard'
-import { SortableContext } from '@dnd-kit/sortable'
+import { SortableContext, useSortable } from '@dnd-kit/sortable'
 
 interface taskListInterface {
   data: kanbanInterface,
@@ -17,22 +17,31 @@ export const TaskList:FC<taskListInterface> = ({ data }) => {
     )
   }
 
+   const { setNodeRef, listeners } = useSortable({
+    id: data.id,
+    data: {
+      type: "column",
+      column: data
+    }
+  })
+
 
   return (
     <div 
-
+      { ...listeners }
+      ref={setNodeRef} 
       className={`w-full mt-5 p-6 
-      ${data.id === 1 && 'bg-slate-100'} 
-      ${data.id === 2 && 'bg-red-100'} 
-      ${data.id === 3 && 'bg-green-100'} 
+      ${data.id === "A" && 'bg-slate-100'} 
+      ${data.id === "B" && 'bg-red-100'} 
+      ${data.id === "C" && 'bg-green-100'} 
       border border-gray-200 rounded-lg shadow`}
     >
     <div className="flex justify-between px-2"> 
       <h5 
         className={`mb-2 text-lg font-bold tracking-tight     
-        ${data.id === 1 && 'text-slate-800'} 
-        ${data.id === 2 && 'text-red-800'} 
-        ${data.id === 3 && 'text-green-800'}`}
+        ${data.id === "A" && 'text-slate-800'} 
+        ${data.id === "B" && 'text-red-800'} 
+        ${data.id === "C" && 'text-green-800'}`}
       >
         {data.title}
       </h5>

@@ -43,3 +43,10 @@ export const getCompletedTask = (tasks: taskItemInterface[]) => {
   const filteredItems = _.filter(tasks, { status: "completed" })
   return filteredItems
 }
+export const setNewTaskList = (taskList: taskItemInterface[]) => {
+  return [
+    { id: "A", title: "To do", data: getTodoTask(taskList)},
+    { id: "B", title: "On Progress", data: getOnProgressTask(taskList)},
+    { id: "C", title: "Completed", data: getCompletedTask(taskList)}
+  ]
+}
