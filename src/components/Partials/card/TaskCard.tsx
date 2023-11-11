@@ -39,14 +39,15 @@ export const TaskCard:FC<taskCardInterface> = ({ task }) => {
   }
 
   return (
-    <div  
+    <div
+      { ...attributes }
+      { ...listeners }
+      ref={setNodeRef}
       className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow"
     >
       <div className="flex justify-between px-2"> 
         <h1 
-          { ...attributes }
-          { ...listeners }
-          ref={setNodeRef} 
+        
           className="font-bold text-lg"
         >
           {task.name}
