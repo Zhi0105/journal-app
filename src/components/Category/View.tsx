@@ -15,7 +15,7 @@ import _ from "lodash";
 import { getCategoryTasks, setNewTaskList } from "@/helpers/helpers";
 
 // DND
-import { DndContext, DragEndEvent, DragStartEvent, DragOverlay } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, DragStartEvent, DragOverlay, useSensors, useSensor, PointerSensor } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 
@@ -32,7 +32,13 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
   const [activeTask, setActiveTask] = useState<taskItemInterface | null>(null)
   const [kanbanColumn, setKanbanColumn] = useState<kanbanInterface[]>(setNewTaskList(taskList))
   const column_id = useMemo(() => kanbanColumn.map((column) => column.id), [kanbanColumn])
-
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchKeyword(e.target.value)
@@ -55,7 +61,9 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       setActiveTask(null)
       const { active, over } = event
       if(!over) return;
-
+      if(active.id === over.id) return;
+      if(active?.data.current?.type === 'column' && over?.data.current?.type === 'column') return;
+      
       if(over?.data.current?.type === 'task') {
           const activeStatus = active.data.current?.task.status  
           const overStatus = over.data.current?.task.status  
@@ -121,7 +129,7 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       </div>
       <h1 className="text-xl font-bold capitalize mt-12">{category.title}</h1>
 
-        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd} sensors={sensors}>
           <div className="w-full grid xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <SortableContext items={column_id}>
             {kanbanColumn.map((column: kanbanInterface, index: number)  => {

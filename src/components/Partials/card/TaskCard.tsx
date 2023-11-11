@@ -3,6 +3,7 @@ import { taskItemInterface } from "@/types/task/interface"
 import { motion } from 'framer-motion'
 import { encodeURL } from "@/helpers/helpers";
 import { BiSolidEdit } from 'react-icons/bi'
+import { AiFillPushpin } from 'react-icons/ai'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Link from "next/link";
@@ -45,11 +46,11 @@ export const TaskCard:FC<taskCardInterface> = ({ task }) => {
       ref={setNodeRef}
       className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow"
     >
+      <span className="text-blue-500">
+        <AiFillPushpin size={"1.2rem"} />
+      </span>
       <div className="flex justify-between px-2"> 
-        <h1 
-        
-          className="font-bold text-lg"
-        >
+        <h1 className="font-bold text-lg">
           {task.name}
         </h1>
         <motion.span
