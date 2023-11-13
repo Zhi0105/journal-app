@@ -3,8 +3,10 @@ import { useUserStore } from "@/store/auth";
 import { userInterface } from "@/types/auth/interface";
 import { UseCategoryStore } from "@/store/category";
 import { UseTaskStore } from "@/store/task";
+import { Calendar } from "./Partials/calendar/Calendar";
 import Lottie from "lottie-react";
 import hand from '@_assets/hand.json'
+
 
 
 // HELPERS
@@ -78,6 +80,9 @@ export const Panel = () => {
           </div>
           
         </div>
+      </div>
+      <div className="px-8 mt-5">
+        <Calendar />
       </div>
     </div>
   )
