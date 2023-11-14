@@ -49,13 +49,14 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       toast(err.response.data.message, { type: "warning" })
     },
   });
-  const { mutate: handleUpdateTaskDates } = useMutation({
+  const { mutate: handleUpdateTaskDates } = useMutation({ 
     mutationFn: UpdateTask,
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['task'] });
         console.log("dates updated!")
       }, 
     onError: (err: any) => {
+      console.log(err)
       toast(err.response.data.message, { type: "warning" })
     },
   });
