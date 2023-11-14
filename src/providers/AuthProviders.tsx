@@ -6,6 +6,8 @@ import { Login, GetUser } from "@/services/authentications"
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify"
 import { useUserStore } from "@/store/auth"
+import { UseCategoryStore } from "@/store/category"
+import { UseTaskStore } from "@/store/task"
 import { EncryptUser } from "@/helpers/helpers"
 import { useRouter } from "next/navigation"
 import { setCookie, deleteCookie } from 'cookies-next';
@@ -19,6 +21,12 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     setUser: state.setUser,
     setToken: state.setToken,
     setUserLogout: state.setUserLogout
+  }));
+  const { resetCategory} = UseCategoryStore((state) => ({
+    resetCategory: state.resetCategory,
+  }));
+  const { resetTasks} = UseTaskStore((state) => ({
+    resetTasks: state.resetTasks,
   }));
 
   useEffect(() => { // IF HAS SESSION OR NOT!
@@ -48,6 +56,8 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
 
   const logout = ():void => {
     setUserLogout()
+    resetCategory()
+    resetTasks()
     deleteCookie('user')
     toast("logout success!", { type: "success" })
     router.push('/login')

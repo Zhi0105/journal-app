@@ -5,7 +5,7 @@ import { categoryItemInterface } from "@/types/category/interface";
 interface categoryStoreInterface {
   categories: categoryItemInterface[],
   setCategories:( data: categoryItemInterface[] ) => void,
-  
+  resetCategory: () => void
 }
 
 const categoryStore = persist<categoryStoreInterface>(
@@ -14,6 +14,7 @@ const categoryStore = persist<categoryStoreInterface>(
     setCategories: (data) => set(() => ({
       categories: [ ...data ] 
     })),
+    resetCategory: () => set(() => ({ categories: [] })),
   }),
   {
     name: 'category', // name of the item in the storage (must be unique)
