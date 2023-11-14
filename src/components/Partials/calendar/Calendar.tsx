@@ -1,9 +1,8 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, FC } from 'react'
 import { TaskContext } from '@/contexts/TaskContext';
 import { useUserStore } from "@/store/auth"
-import { UseCategoryStore } from "@/store/category";
-import { UseTaskStore } from "@/store/task";
 import { taskItemInterface } from '@/types/task/interface';
+import { categoryItemInterface } from '@/types/category/interface';
 import { useRouter } from "next/navigation"
 import { encodeURL } from "@/helpers/helpers";
 import Fullcalendar from '@fullcalendar/react'
@@ -23,12 +22,14 @@ interface eventInterface {
   end: Date | string
 }
 
+interface CalendarInterface {
+  categories: categoryItemInterface[],
+  tasks: taskItemInterface[]
+}
 
-export const Calendar = () => {
+export const Calendar:FC<CalendarInterface> = ({ categories, tasks }) => {
   const { updateTaskDates } = useContext(TaskContext)
   const { token } = useUserStore((state) => ({ token: state.token }));
-  const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
-  const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const getEvents = (tasklist: taskItemInterface[]) => {
     const events:eventInterface[] = []
     const pendingTasks = _.filter(tasklist, (task) => task.status === 'open' || task.status === 'pending')
