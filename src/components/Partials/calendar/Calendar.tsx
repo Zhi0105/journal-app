@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { TaskContext } from '@/contexts/TaskContext';
+import { useUserStore } from "@/store/auth"
 import { UseCategoryStore } from "@/store/category";
 import { UseTaskStore } from "@/store/task";
 import { taskItemInterface } from '@/types/task/interface';
+import { useRouter } from "next/navigation"
+import { encodeURL } from "@/helpers/helpers";
 import Fullcalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import tippy from 'tippy.js'
 import _ from 'lodash'
 import dayjs from 'dayjs'
+import 'tippy.js/animations/scale-extreme.css';
+import 'tippy.js/dist/tippy.css';
+import '@_app/tooltip.css'
 
 interface eventInterface {
   title: string,
@@ -15,7 +23,10 @@ interface eventInterface {
   end: Date | string
 }
 
+
 export const Calendar = () => {
+  const { updateTaskDates } = useContext(TaskContext)
+  const { token } = useUserStore((state) => ({ token: state.token }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
   const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const getEvents = (tasklist: taskItemInterface[]) => {
@@ -30,15 +41,52 @@ export const Calendar = () => {
     })
     return events
   }
-  const [ events, setEvents ] = useState(getEvents(tasks))
+  const [ events ] = useState(getEvents(tasks))
+  const router = useRouter()
+
   return (
     <Fullcalendar 
       editable
       selectable
       displayEventTime={false}
-      events={events}
       plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin]}
       initialView={"dayGridMonth"}
+      events={events}
+      eventDidMount={(info) => {
+        return tippy(info.el, {
+          zIndex: 9999,
+          // trigger: "focusin",
+          allowHTML: true,
+          content: `
+            <div>
+              <div class="tooltip-header">
+                <p>(${_.filter(tasks, { name: `${info.event.title}` })[0].status})</p>
+              </div>
+              <p class="tooltip-description">${_.filter(tasks, { name: `${info.event.title}` })[0].description}</p>
+            </div>
+          `,
+          animation: "scale-extreme",
+        })
+      }}
+      eventDrop={(info) => {
+          const task = _.filter(tasks, { name: info.event.title })
+        if(token) {
+          let payload = {
+            category_id: Number(task[0].category_id),
+            task_id: Number(task[0].id),
+            start_date: dayjs(info.event.start, { utc: true }).format(),
+            end_date: dayjs(info.event.end, { utc: true }).format(),
+            user: token
+          }
+          updateTaskDates(payload)
+        }
+      }}
+      eventClick={(info) => {
+        const task = _.filter(tasks, { name: info.event.title })
+        const category = _.filter(categories, { id: task[0].category_id })
+
+        router.push(`/dashboard/category/${encodeURL(category[0])}`)
+      }}
       // headerToolbar={{
       //   start: "today prev,next",
       //   center: "title",

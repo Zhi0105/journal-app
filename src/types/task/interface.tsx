@@ -28,7 +28,8 @@ export interface updateTaskInterface extends taskInterface {
 export interface TaskContextInterface {
   createTask: (payload: taskInterface) => void,
   updateTask: (payload: updateTaskInterface) => void,
-  updateTaskStatus: (payload: updateTaskInterface) => void
+  updateTaskStatus: (payload: updateTaskInterface) => void,
+  updateTaskDates: (payload: updateTaskInterface) => void
 }
 
 export interface dateRangeInterface {
