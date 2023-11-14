@@ -46,8 +46,8 @@ export const View:FC<ReadCategoryInterface> = ({ category }) => {
       const filteredItem = tasks.filter((item) => { 
         return item.name.toLowerCase().includes(e.target.value.toLowerCase())
       })
-      setTaskList(getCategoryTasks(filteredItem, category.id))
-      setKanbanColumn(setNewTaskList(filteredItem))
+      const newTasks = getCategoryTasks(filteredItem, category.id)
+      setKanbanColumn(setNewTaskList(newTasks))
     }
 
     const onDragStart = (event: DragStartEvent) => {
