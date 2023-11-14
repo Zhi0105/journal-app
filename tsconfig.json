@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -19,18 +23,46 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@_app/*": ["./src/app/*"],
-      "@_assets/*": ["./src/assets/*"],
-      "@_components/*": ["./src/components/*"],
-      "@_contexts/*": ["./src/contexts/*"],
-      "@_helpers/*": ["./src/helpers/*"],
-      "@_services/*": ["./src/services/*"],
-      "@_store/*": ["./src/store/*"],
-      "@_providers/*": ["./src/providers/*"],
-      "@_types/*": ["./src/types/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@_app/*": [
+        "./src/app/*"
+      ],
+      "@_assets/*": [
+        "./src/assets/*"
+      ],
+      "@_components/*": [
+        "./src/components/*"
+      ],
+      "@_contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@_helpers/*": [
+        "./src/helpers/*"
+      ],
+      "@_services/*": [
+        "./src/services/*"
+      ],
+      "@_store/*": [
+        "./src/store/*"
+      ],
+      "@_providers/*": [
+        "./src/providers/*"
+      ],
+      "@_types/*": [
+        "./src/types/*"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
