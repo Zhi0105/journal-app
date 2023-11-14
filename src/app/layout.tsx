@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 // PROVIDERS
 import TanstackProviders from '@/providers/TanstackProviders'
 import { AuthProviders } from '@/providers/AuthProviders'
+import { BoundaryProvider } from '@/providers/ErrorBoundary'
 
 //  TOAST
 import { ToastContainer } from 'react-toastify'
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <TanstackProviders>
           <AuthProviders>
-            {children}
+            <BoundaryProvider>
+              {children}
+            </BoundaryProvider>
           </AuthProviders>
         </TanstackProviders>
         <ToastContainer />
