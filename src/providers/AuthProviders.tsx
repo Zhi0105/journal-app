@@ -11,6 +11,7 @@ import { UseTaskStore } from "@/store/task"
 import { EncryptUser } from "@/helpers/helpers"
 import { useRouter } from "next/navigation"
 import { setCookie, deleteCookie } from 'cookies-next';
+import _ from "lodash"
 
 
 export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
@@ -54,13 +55,18 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     handleLoginUser(data)
   }
 
-  const logout = ():void => {
-    setUserLogout()
+  const logout_debounce = _.debounce(() => {
     resetCategory()
     resetTasks()
+  }, 1000)
+
+
+  const logout = ():void => {
+    router.push('/login')
+    setUserLogout()
     deleteCookie('user')
     toast("logout success!", { type: "success" })
-    router.push('/login')
+    logout_debounce()
   }
 
   const authenticate = async(user:string) => {
@@ -73,8 +79,6 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
   }
 
   
-
-
   return (
     <AuthContext.Provider 
       value={{ 
