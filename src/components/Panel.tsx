@@ -18,7 +18,7 @@ export const Panel = () => {
   const { user } = useUserStore((state) => ({ user: state.user }));
   const { categories } = UseCategoryStore((state) => ({ categories: state.categories }));
   const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
-
+  const [mounted, setMounted] = useState<boolean>(false)
   const [userdata, setUserData] = useState<userInterface>()
 
   useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
@@ -26,9 +26,21 @@ export const Panel = () => {
       const userdata = getDecryptedUser(user)
       setUserData(userdata)
     } 
-   
-  }, [user])
+    setTimeout(() => setMounted(true), 200)
+  }, [user, setMounted])
 
+
+  const PanelSection = () => {
+    return (
+      <div className="px-8 mt-5">
+        {tasks.length != 0 ?
+            <Calendar categories={categories} tasks={tasks}/>
+          :
+            <EmptyCalendar />
+        }
+      </div>
+    )
+  }
 
   const EmptyCalendar = () => {
     return (
@@ -102,13 +114,9 @@ export const Panel = () => {
           </div>
           </div>
         }
-      <div className="px-8 mt-5">
-        {tasks.length != 0 ?
-            <Calendar categories={categories} tasks={tasks}/>
-          :
-            <EmptyCalendar />
-        }
-      </div>
+      {mounted &&
+        <PanelSection />
+      }
     </div>
   )
 }
