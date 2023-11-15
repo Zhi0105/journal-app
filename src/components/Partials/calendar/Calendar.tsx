@@ -71,16 +71,16 @@ export const Calendar:FC<CalendarInterface> = ({ categories, tasks }) => {
       }}
       eventDrop={(info) => {
           const task = _.filter(tasks, { name: info.event.title })
-        if(token) {
-          let payload = {
-            category_id: Number(task[0].category_id),
-            task_id: Number(task[0].id),
-            start_date: dayjs(info.event.start, { utc: true }).format(),
-            end_date: dayjs(info.event.end, { utc: true }).format(),
-            user: token
+          if(token) {
+            let payload = {
+              category_id: Number(task[0].category_id),
+              task_id: Number(task[0].id),
+              start_date: dayjs(info.event.start, { utc: true }).format(),
+              end_date: dayjs(!info.event.end ? info.event.start : info.event.end, { utc: true }).format(),
+              user: token
+            }
+            updateTaskDates(payload)
           }
-          updateTaskDates(payload)
-        }
       }}
       eventClick={(info) => {
         const task = _.filter(tasks, { name: info.event.title })
