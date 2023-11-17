@@ -4,10 +4,10 @@ import { userInterface } from "@/types/auth/interface";
 import { UseCategoryStore } from "@/store/category";
 import { UseTaskStore } from "@/store/task";
 import { Calendar } from "./Partials/calendar/Calendar";
+import { Today } from "./Partials/timeline/Today";  
 import Lottie from "lottie-react";
 import hand from '@_assets/hand.json'
 import welcome from '@_assets/welcome.json'
-
 
 
 // HELPERS
@@ -20,6 +20,7 @@ export const Panel = () => {
   const { tasks } = UseTaskStore((state) => ({ tasks: state.tasks }));
   const [mounted, setMounted] = useState<boolean>(false)
   const [userdata, setUserData] = useState<userInterface>()
+
 
   useEffect(() => {  // HANDLE USER AUTHENTICATION REDIRECT TO DASHBOARD IF AUTHENTICATED
     if(user){
@@ -114,6 +115,9 @@ export const Panel = () => {
           </div>
           </div>
         }
+      <div className="my-2">
+        <Today />
+      </div>
       {mounted &&
         <PanelSection />
       }
