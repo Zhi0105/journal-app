@@ -2,6 +2,7 @@ import { AES, enc } from "crypto-js";
 import { userInterface } from "@/types/auth/interface";
 import { taskItemInterface } from "@/types/task/interface";
 import _ from "lodash";
+import dayjs from 'dayjs'
 
 export const EncryptUser = ( user: userInterface ):string => {
   const encryptedUser = AES.encrypt(JSON.stringify({ ...user }), "user").toString()
@@ -49,4 +50,7 @@ export const setNewTaskList = (taskList: taskItemInterface[]) => {
     { id: "B", title: "On Progress", data: getOnProgressTask(taskList)},
     { id: "C", title: "Completed", data: getCompletedTask(taskList)}
   ]
+}
+export const getTodayTimeline = () => {
+  return `${dayjs().format("dddd")}, ${dayjs().format("MMMM")} ${dayjs().format("DD")}`
 }
