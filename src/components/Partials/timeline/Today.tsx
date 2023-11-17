@@ -14,16 +14,14 @@ export const Today = () => {
   const getTodayTasksCallback = useCallback((list: taskItemInterface[]) => {
     const pendingTasks = _.filter(list, (task) => task.status === 'open' || task.status === 'pending')
     const todayTasks = _.filter(pendingTasks, (task) => dayjs() >= dayjs(task.start_date) && dayjs() <= dayjs(task.end_date))
-    return todayTasks
+    const todayTasks2 = _.filter(pendingTasks, (task) => dayjs().isSame(dayjs(task.start_date), "day") && dayjs().isSame(dayjs(task.end_date), "day"))
+    return [...todayTasks, ...todayTasks2]
   }, [])
 
   useEffect(() => {
     setLists(getTodayTasksCallback(tasks))
   }, [tasks, getTodayTasksCallback])
 
-  useEffect(() => {
-    console.log(lists)
-  }, [lists])
 
   if(!lists.length) {
     return null
