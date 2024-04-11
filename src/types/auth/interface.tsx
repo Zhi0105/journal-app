@@ -11,6 +11,7 @@ export interface RegisterInterface {
 export interface AuthContextInterface {
   login: (data:LoginInterface) => void,
   authenticate: (user: string) => void,
+  loginLoading: boolean,
   logout: () => void
 }
 

@@ -39,7 +39,7 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user])
   
-  const { mutate: handleLoginUser } = useMutation({
+  const { mutate: handleLoginUser, isLoading: LoginLoading } = useMutation({
     mutationFn: Login,
     onSuccess: (data: { access_token: string }) => {
         queryClient.invalidateQueries({ queryKey: ['login'] });
@@ -84,7 +84,8 @@ export const AuthProviders = ({ children }: { children: React.ReactNode }) => {
       value={{ 
         login: (data:LoginInterface) => { login(data) }, 
         authenticate: (user: string) => { authenticate(user) },
-        logout: () => { logout() }
+        logout: () => { logout() },
+        loginLoading: LoginLoading
       }}
     >
       {children}

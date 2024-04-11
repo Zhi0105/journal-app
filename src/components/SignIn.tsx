@@ -30,7 +30,7 @@ export const SignIn = () => {
   });
   const router = useRouter();
   const { user } = useUserStore((state) => ({ user: state.user }));
-  const { login } = useContext(AuthContext)
+  const { login, loginLoading } = useContext(AuthContext)
   const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
   const onSubmit = (data: LoginInterface): void => {
     login(data)
@@ -102,12 +102,13 @@ export const SignIn = () => {
             </div>            
             <div className="grid grid-cols-3 gap-3">
               <button 
+                disabled={loginLoading}
                 onClick={handleSubmit((data) => onSubmit(data))}
                 type="button" 
                 className="w-full text-gray-900 bg-white flex justify-center items-center gap-4 cursor-pointer hover:bg-gray-300 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
               >
                 <BiLogIn width={50} height={50} />
-                Login
+                {loginLoading ? "Please wait..." : "Login"}
               </button>
               <Link href={"/register"}
                 className="w-full text-gray-900 bg-white flex justify-center items-center gap-4 cursor-pointer hover:bg-gray-300 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
