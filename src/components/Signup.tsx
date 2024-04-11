@@ -27,7 +27,7 @@ export const Signup = () => {
   });
   const queryClient = useQueryClient()
   const { authenticate } = useContext(AuthContext)  
-  const { mutate: handleRegister } = useMutation({
+  const { mutate: handleRegister, isLoading: registerLoading } = useMutation({
     mutationFn: Register,
       onSuccess: (data: { access_token: string }) => {
       queryClient.invalidateQueries({ queryKey: ['userRegister'] });
@@ -150,12 +150,13 @@ export const Signup = () => {
               Already Registered?
             </Link>
             <button 
+              disabled={registerLoading}
               onClick={handleSubmit((data) => onSubmit(data))}
               type="button" 
               className="w-full text-gray-900 bg-white flex justify-center items-center gap-4 cursor-pointer hover:bg-gray-300 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
             >
               <BiLogIn width={50} height={50} />
-              Register
+              {registerLoading ? "Please wait..." : "Register"}
             </button>
           </div>
         
