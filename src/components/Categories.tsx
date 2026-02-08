@@ -46,7 +46,7 @@ export const Categories = () => {
                 <div className="text-right font-bold text-sm text-green-500">
                   {`(${getCategoryTaskLength(tasks, category.id)}) task(s)`}
                 </div>
-                <div className="font-bold mb-2 text-center">
+                <div className="font-bold mb-2 text-center text-black">
                     <Lottie animationData={book}/>
                   {category.title}
                 </div>

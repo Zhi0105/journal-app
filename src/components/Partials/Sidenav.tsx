@@ -23,28 +23,28 @@ export const Sidenav = ({ logout }: any) => {
           <Lottie animationData={profile}/>
         </li>
         <Link href="/dashboard" className="flex gap-2 cursor-pointer" target="_self">
-          <span><AiOutlineHome /></span>
-          <span>Dashboard</span>
+          <span><AiOutlineHome color='#000000'/></span>
+          <span className='text-black'>Dashboard</span>
         </Link>
         <Link href="/dashboard/category/create" className="flex gap-2 cursor-pointer">
-            <span><IoIosCreate /></span>
-            <span>Journal </span>
+            <span><IoIosCreate color='#000000'/></span>
+            <span className='text-black'>Journal </span>
         </Link>
         <Link href="/dashboard/task/create" className="flex gap-2 cursor-pointer">
-            <span><IoIosCreate /></span>
-            <span>Task</span>
+            <span><IoIosCreate color='#000000'/></span>
+            <span className='text-black'>Task</span>
         </Link>  
         <Link href="/dashboard/category" className="flex gap-2 cursor-pointer" target="_self">
-          <span><BiCategory /></span>
-          <span>Category</span>
+          <span><BiCategory color='#000000' /></span>
+          <span className='text-black'>Category</span>
         </Link>
         <Link href="/dashboard/settings" className="flex gap-2 cursor-pointer" target="_self">
-          <span><FcSettings /></span>
-          <span>Settings</span>
+          <span><FcSettings color='#000000' /></span>
+          <span className='text-black'>Settings</span>
         </Link>
         <li onClick={logout} className="flex gap-2 cursor-pointer">
-          <span><AiOutlinePoweroff /></span>
-          <span>Sign off</span>
+          <span><AiOutlinePoweroff color='#000000' /></span>
+          <span className='text-black'>Sign off</span>
         </li>
       </ul>
     </div> 

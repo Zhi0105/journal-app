@@ -81,7 +81,7 @@ export const EditTasks:FC<editTaskInterface> = ({ task }) => {
     <div>
       <Image src={journal} alt="journal" width={150} height={150} priority/>
     </div>
-    <div className="header text-lg font-bold"> Update your task: </div>
+    <div className="header text-lg font-bold text-black"> Update your task: </div>
     <div className="content text-sm xs:w-full sm:w-full md:w-4/5 lg:w-4/5 xl:w-4/5">
     <form className="flex xs:flex-col sm:flex-col gap-4 px-8" onSubmit={handleSubmit((data) => onSubmit(data))}>
 

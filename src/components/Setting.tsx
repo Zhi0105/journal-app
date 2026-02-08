@@ -83,7 +83,7 @@ export const Setting = () => {
           <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
               <div className="text-center mb-10">
                   <h1 className="font-bold text-3xl text-gray-900">User Information</h1>
-                  <p className="text-sm mt-2">You can update your details here. changing your password is optional.</p>
+                  <p className="text-sm mt-2 text-gray-900">You can update your details here. changing your password is optional.</p>
               </div>
               <div className="content text-sm">
                 <form className="contact_form flex flex-col gap-4 px-8" onSubmit={handleSubmit((data) => onSubmit(data))}>
